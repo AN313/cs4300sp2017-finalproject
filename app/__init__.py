@@ -1,8 +1,16 @@
-from flask import Flask, request
+from flask import Flask, request, render_template, send_from_directory
 import json
 from .controllers.concerns import naive_bayes
+import os
 
-app = Flask(__name__)
+view_dir = os.path.join(os.path.dirname(
+                        os.path.abspath(__file__)), 'views')
+
+
+asset_dir = os.path.join(os.path.dirname(
+                        os.path.abspath(__file__)), 'assets')
+
+app = Flask(__name__, template_folder=view_dir)
 
 
 @app.route("/")
@@ -17,7 +25,7 @@ def adminIndex():
 
 @app.route("/host")
 def hostIndex():
-    return "Hello Host!"
+    return render_template('host.html')
 
 
 @app.route("/host/predict", methods=['POST'])
@@ -31,7 +39,7 @@ def hostPredict():
 
 @app.route("/traveler")
 def travelerIndex():
-    return "Hello Traveler!"
+    return render_template('traveler.html')
 
 
 @app.route("/traveler/predict")
@@ -41,3 +49,15 @@ def travelerPredict():
         'for': url,
         'priceRange': [100, 200]
     })
+
+
+@app.route('/static/javascripts/<path:path>')
+def send_js(path):
+    print(path)
+    return send_from_directory(os.path.join(asset_dir,'javascripts'), path)
+
+
+@app.route('/static/stylesheets/<path:path>')
+def send_css(path):
+    print(path)
+    return send_from_directory(os.path.join(asset_dir,'stylesheets'), path)
