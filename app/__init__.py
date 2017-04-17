@@ -1,5 +1,6 @@
 from flask import Flask, request
 import json
+from .controllers.concerns import naive_bayes
 
 app = Flask(__name__)
 
@@ -21,10 +22,10 @@ def hostIndex():
 
 @app.route("/host/predict", methods=['POST'])
 def hostPredict():
-    price = request.json['price']
-    rooms = request.json['rooms']
+    listing = request.json
+    priceClass = naive_bayes.predict(naive_bayes.bundle(listing))
     return json.dumps({
-        'priceRange': [price - 10, price + 10]
+        'priceClass': priceClass
     })
 
 
