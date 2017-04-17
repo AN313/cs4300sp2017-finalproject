@@ -1,0 +1,10 @@
+name: cs4300
+dependencies:
+  - python=2.7
+  - numpy
+  - pandas
+  - beautiful-soup
+  - matplotlib
+  - jupyter
+  - nltk
+  - ipykernel
