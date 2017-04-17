@@ -1,6 +1,6 @@
 from flask import Flask, request, render_template, send_from_directory
 import json
-from .controllers.concerns import naive_bayes
+from app.controllers.concerns import naive_bayes
 import os
 
 view_dir = os.path.join(os.path.dirname(
