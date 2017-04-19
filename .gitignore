@@ -1,6 +1,8 @@
 # project specific
-
+*.ipynb
+*.pkl
 data/*
+.ipynb_checkpoints/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
