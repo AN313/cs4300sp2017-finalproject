@@ -1,7 +1,8 @@
 import numpy as np
 from sklearn.naive_bayes import GaussianNB, MultinomialNB
 from sklearn.externals import joblib
-import os, json, nltk
+import os, json
+from nltk import nltk.word_tokenize
 
 
 
@@ -113,7 +114,7 @@ def read_jsonObj(listing):
 #TODO tfidf
 def parse_str(s):
     X = np.zeros((1,strFeat))
-    desc = nltk.word_tokenize(s)
+    desc = word_tokenize(s)
     for item in desc:
         X[0,hash(item.lower())%strFeat] = X[0,hash(item.lower())%strFeat]+1
     return X
