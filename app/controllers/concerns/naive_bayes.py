@@ -81,13 +81,13 @@ class NaiveBayes(object):
     # Input:
     # strObj: input String
     def predict_str(self, strObj):
-        test = parse_str(strObj)
+        test = self.parse_str(strObj)
         clf = joblib.load(os.path.join(
             self.assetsDir, 'classifiers', 'nb_str.pkl'))
         return clf.predict(test)
 
     def find_similar(self, strObj):
-        test = parse_str(strObj)
+        test = self.parse_str(strObj)
         trainingVec = joblib.load(os.path.join(
             self.assetsDir, 'classifiers', 'listing_vecs.pkl'))
         id2listing = joblib.load(os.path.join(
@@ -95,7 +95,7 @@ class NaiveBayes(object):
         cosSim = trainingVec.dot(test.reshape((-1, 1)))
         res = np.argsort(cosSim[:, 0])[::-1]
         result = []
-        for i in xrange(10):
+        for i in range(10):
             result.append(str(id2listing[res[i]]))
         return result
 
