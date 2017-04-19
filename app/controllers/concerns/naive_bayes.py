@@ -81,13 +81,13 @@ class NaiveBayes(object):
     # Input:
     # strObj: input String
     def predict_str(self, strObj):
-        test = parse_str(strObj)
+        test = self.parse_str(strObj)
         clf = joblib.load(os.path.join(
             self.assetsDir, 'classifiers', 'nb_str.pkl'))
         return clf.predict(test)
 
     def find_similar(self, strObj):
-        test = parse_str(strObj)
+        test = self.parse_str(strObj)
         trainingVec = joblib.load(os.path.join(
             self.assetsDir, 'classifiers', 'listing_vecs.pkl'))
         id2listing = joblib.load(os.path.join(
