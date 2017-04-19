@@ -8,7 +8,12 @@ view_dir = os.path.join(os.path.dirname(
 
 
 asset_dir = os.path.join(os.path.dirname(
-                        os.path.abspath(__file__)), 'assets')
+    os.path.abspath(__file__)), 'assets')
+
+data_dir = os.path.join(os.path.dirname(
+                        os.path.abspath(__file__)), '../static/data')
+
+nb = naive_bayes.NaiveBayes(data_dir, asset_dir)
 
 app = Flask(__name__, template_folder=view_dir)
 
@@ -33,19 +38,20 @@ def hostPredict():
     similar = []
     listing = request.json
     print(listing['classifier_type'])
-    if listing['classifier_type']  == "1":
-        priceClass = naive_bayes.predict_listing(listing)[0]
+    if listing['classifier_type'] == "1":
+        priceClass = nb.predict_listing(listing)[0]
     elif listing['classifier_type'] == "2":
-        priceClass = naive_bayes.predict_str(listing['description']+listing['house_rules'])
-        similar = naive_bayes.find_similar(listing['description']+listing['house_rules'])
+        priceClass = nb.predict_str(
+            listing['description'] + listing['house_rules'])
+        similar = nb.find_similar(
+            listing['description'] + listing['house_rules'])
     else:
         priceClass = -1
-    low = priceClass*50
-    high = (priceClass+1)*50-1
-    
+    low = priceClass * 50
+    high = (priceClass + 1) * 50 - 1
 
     return json.dumps({
-        'priceClass': str(low)+" ~ " + str(high),
+        'priceClass': str(low) + " ~ " + str(high),
         'similar': ' '.join(similar)
     })
 
@@ -70,10 +76,10 @@ def travelerPredict():
 @app.route('/static/javascripts/<path:path>')
 def send_js(path):
     print(path)
-    return send_from_directory(os.path.join(asset_dir,'javascripts'), path)
+    return send_from_directory(os.path.join(asset_dir, 'javascripts'), path)
 
 
 @app.route('/static/stylesheets/<path:path>')
 def send_css(path):
     print(path)
-    return send_from_directory(os.path.join(asset_dir,'stylesheets'), path)
+    return send_from_directory(os.path.join(asset_dir, 'stylesheets'), path)
