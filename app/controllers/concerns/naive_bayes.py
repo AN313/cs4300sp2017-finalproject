@@ -65,7 +65,7 @@ def train_classifier_desc(dataDir = None):
 # Input:
 # jsonObj: json object
 def predict_listing(jsonObj):
-    print os.getcwd()
+    # print os.getcwd()
     test = read_jsonObj(jsonObj)
     clf = joblib.load(os.path.join(APP_STATIC, 'nb_listing.pkl'))
     return clf.predict(test)
