@@ -2,7 +2,7 @@ import numpy as np
 from sklearn.naive_bayes import GaussianNB, MultinomialNB
 from sklearn.externals import joblib
 import os, json
-from nltk import nltk.word_tokenize
+from nltk import word_tokenize
 
 
 
