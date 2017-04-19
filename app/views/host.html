@@ -12,14 +12,247 @@
 
   <!-- Optional theme -->
   <link rel="stylesheet" href="static/stylesheets/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="static/stylesheets/main.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script type="text/javascript" src="static/javascripts/main.js"></script>
 </head>
 
+
+
+
 <body>
-  <div>
-    <h1>Example Domain</h1>
-    <p>This domain is established to be used for illustrative examples in documents. You may use this domain in examples without prior coordination or asking for permission.</p>
-    <p><a href="http://www.iana.org/domains/example">More information...</a></p>
-  </div>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">APS</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+          <!--           <li>
+                        <a href="#">Home</a>
+                    </li> -->
+                    <li class="active">
+                        <a href="host">Host</a>
+                    </li>
+                    <li>
+                        <a href="#">Traveler</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+<!-- <header class="image-bg-fluid-height">
+        <img class="img-responsive img-center" src="http://placehold.it/200x200&text=Logo" alt="">
+</header> -->
+<aside class="image-bg-fixed-height"></aside>
+  <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="section-heading">Listing Price Suggestion</h1>
+                    <p class="lead section-lead">Please complete the form below.</p>
+                    
+               <!--      <p class="section-paragraph"></p> -->
+
+                     <form action="" method="post" onsubmit='return onSubmit(this)'> 
+
+                         <div class="form-group">
+                            <label for="sel1">What type of property is this?</label>
+                            <select class="form-control" id="sel1" name='property_type'>
+                                <option value="" disabled selected>Select your option</option>
+                                <option value = "Apartment" >Apartment</option>
+                                <option value = "House" >House</option>
+                                <option  value = "Condominium" >Condominium</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="sel1">What will guests have?</label>
+                            <select class="form-control" id="sel1" name='room_type'>
+                                <option value="" disabled selected>Select your option</option>
+                                <option value = "Entire home/apt" >Entire place</option>
+                                <option value = "Private room" >Private room</option>
+                                <option  value = "Shared room" >Shared room</option>
+                            </select>
+                        </div>
+
+        
+                        <div class="form-group">
+                            <label for="sel1">How many guests can your place accommodate?</label>
+                            <input class="form-control" type="number" name="person_capacity" min="1" max="16">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="sel1">How many bedrooms can guests use?</label>
+                            <select class="form-control" id="sel1" name="bedrooms">
+                                <option value="" disabled selected>Select your option</option>
+                                <option value = '0'>0</option>
+                                <option value = '1'>1</option>
+                                <option value = '2'>2</option>
+                                <option value = '3'>3</option>
+                                <option value = '4'>4</option>
+                                <option value = '5'>5</option>
+                                <option value = '6'>6</option>
+                                <option value = '7'>7</option>
+                                <option value = '8'>8</option>
+                                <option value = '9'>9</option>
+                                <option value = '10'>10</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="sel1">How many beds can guests use?</label>
+                            <input class="form-control"  type="number" name="beds" min="1" max="16">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="sel1">How many bathrooms?</label>
+                            <input class="form-control"  type="number" name="bathrooms" min="0" max="8">
+                        </div>
+
+                        <div class="form-group">
+                        
+                          <label for="amenities">What amenities do you offer?</label>
+                            <div class="checkbox">
+                              <label><input type="checkbox" name="amenities" value="Essentials">Towels, bed sheets, soap, and toilet paper</label>
+                            </div>
+
+                            <div class="checkbox">
+                              <label><input type="checkbox" name="amenities"  value="Wifi">Wifi</label> 
+                            </div>
+
+                            <div class="checkbox">
+                              <label><input type="checkbox"  name="amenities" value="Shampoo">Shampoo</label>
+                            </div>
+
+                            <div class="checkbox">
+                              <label><input type="checkbox"  name="amenities" value="Closet/drawers">Closet/drawers</label>
+                            </div>
+
+                            <div class="checkbox">
+                              <label><input type="checkbox"  name="amenities" value="TV">TV</label>
+                            </div>
+
+                            <div class="checkbox">
+                              <label><input type="checkbox"  name="amenities" value="Heat">Heat</label>
+                            </div>
+
+                            <div class="checkbox">
+                              <label><input type="checkbox"  name="amenities" value="Air conditioning">Air conditioning</label>
+                            </div>
+
+                            <div class="checkbox">
+                              <label><input type="checkbox"  name="amenities" value="Breakfast, coffee, tea">Breakfast, coffee, tea</label>
+                            </div>
+
+                            <div class="checkbox">
+                              <label><input type="checkbox"  name="amenities" value="Desk/workspace">Desk/workspace</label>
+                            </div>
+
+                            <div class="checkbox">
+                              <label><input type="checkbox"  name="amenities" value="Fireplace">Fireplace</label>
+                            </div>
+
+                            <div class="checkbox">
+                              <label><input type="checkbox"  name="amenities" value="Iron">Iron</label>
+                            </div>
+
+                            <div class="checkbox">
+                              <label><input type="checkbox"  name="amenities" value="Hair dryer">Hair dryer</label>
+                            </div>
+
+                            <div class="checkbox">
+                              <label><input type="checkbox"  name="amenities" value="Pets in the house">Pets in the house</label>
+                            </div>
+
+                      
+
+                          <!--   <label> Safety amenities </label>
+
+                            <div class="checkbox">
+                              <label><input type="checkbox"  name="amenities" value="Smoke detector">Smoke detector</label>
+                            </div>
+
+                            <div class="checkbox">
+                              <label><input type="checkbox"  name="amenities" value="Carbon monoxide detector">Carbon monoxide detector</label>
+                            </div>
+
+                            <div class="checkbox">
+                              <label><input type="checkbox"  name="amenities" value="First aid kit">First aid kit</label>
+                            </div>
+
+                            <div class="checkbox">
+                              <label><input type="checkbox"  name="amenities" value="Safety card">Safety card</label>
+                            </div>
+
+                            <div class="checkbox">
+                              <label><input type="checkbox"  name="amenities" value="Fire extinguisher">Fire extinguisher</label>
+                            </div> -->
+
+                        </div>
+
+
+
+                        <!-- change to detailed form later -->
+                        <div class="form-group">
+                            <label for="address">Address</label>
+                            <textarea class="form-control" rows="5" name="address" >New York, NY, United States</textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="house_rules">House Rules</label>
+                            <textarea class="form-control" rows="5" name="house_rules"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="description">Short description</label>
+                            <textarea class="form-control" rows="5" name="description"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="sel1">Classifier type:</label>
+                            <select class="form-control" id="sel1" name='classifier_type'>
+                                <option value = "1" >non-textual features</option>
+                                <option value = "2" >textual features</option>
+                                <option  value = "3" disabled >Combined</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-default">Submit</button>
+                      </form>  
+
+              <h2>JSON: </h2>
+              <p class="json"></p>
+
+              <h2>Result: </h2>
+              <p class="results"></p>
+         
+
+                </div>
+            </div>
+            <!-- /.row -->
+            
+
+
+        </div>
+        <!-- /.container -->
+    </section>
+
+    <!-- <p><a href="http://www.iana.org/domains/example"></a></p> -->
+  
+ 
 
   <script src="static/javascripts/jquery-3.2.1.min.js"></script>
 

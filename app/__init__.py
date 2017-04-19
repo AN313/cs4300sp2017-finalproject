@@ -31,10 +31,20 @@ def hostIndex():
 @app.route("/host/predict", methods=['POST'])
 def hostPredict():
     listing = request.json
-    priceClass = naive_bayes.predict(naive_bayes.bundle(listing))
+
+    # print "json:   " + str(listing)
+    priceClass = naive_bayes.predict_listing(listing)[0]
+    low = priceClass*50
+    high = (priceClass+1)*50-1
+    
+
     return json.dumps({
-        'priceClass': priceClass
+        'priceClass': str(low)+" ~ " + str(high)
+        # 'priceClass': 50
     })
+
+    # price = 50
+    # return render_template('host.html', price = price)
 
 
 @app.route("/traveler")
