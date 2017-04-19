@@ -7,7 +7,7 @@ from nltk import word_tokenize
 
 
 import os
-# __file__ refers to the file settings.py 
+# __file__ refers to the file settings.py
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))   # refers to application_top
 APP_STATIC = os.path.join(APP_ROOT, 'static')
 
@@ -78,6 +78,17 @@ def predict_str(strObj):
     clf = joblib.load('nb_str.pkl')
     return clf.predict(test)
 
+def find_similar(strObj):
+    test = parse_str(strObj)
+    trainingVec = joblib.load(os.path.join(APP_STATIC,'listing_vecs.pkl'))
+    id2listing = joblib.load(os.path.join(APP_STATIC,'id2listing.pkl'))
+    cosSim = trainingVec.dot(test.reshape((-1, 1)))
+    res = np.argsort(cosSim[:,0])[::-1]
+    result = []
+    for i in xrange(10):
+        result.append(str(id2listing[res[i]]))
+    return result
+
 #turning an opened json file into feature vector
 def read_jsonfile(f):
     X = np.zeros((1,numFeat))
@@ -98,7 +109,7 @@ def read_jsonObj(listing):
     # adding features
     for k in FEAT:
         if k in listing:
-            
+
             if type(listing[k]) is unicode:
                 X[0,hash(k) % numFeat] = 1
             elif type(listing[k]) is int or type(listing[k]) is float:

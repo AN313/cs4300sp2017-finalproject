@@ -30,17 +30,23 @@ def hostIndex():
 
 @app.route("/host/predict", methods=['POST'])
 def hostPredict():
+    similar = []
     listing = request.json
-
-    # print "json:   " + str(listing)
-    priceClass = naive_bayes.predict_listing(listing)[0]
+    print(listing['classifier_type'])
+    if listing['classifier_type']  == "1":
+        priceClass = naive_bayes.predict_listing(listing)[0]
+    elif listing['classifier_type'] == "2":
+        priceClass = naive_bayes.predict_str(listing['description']+listing['house_rules'])
+        similar = naive_bayes.find_similar(listing['description']+listing['house_rules'])
+    else:
+        priceClass = -1
     low = priceClass*50
     high = (priceClass+1)*50-1
     
 
     return json.dumps({
-        'priceClass': str(low)+" ~ " + str(high)
-        # 'priceClass': 50
+        'priceClass': str(low)+" ~ " + str(high),
+        'similar': ' '.join(similar)
     })
 
     # price = 50
