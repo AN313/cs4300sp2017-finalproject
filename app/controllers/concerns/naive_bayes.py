@@ -95,7 +95,7 @@ class NaiveBayes(object):
         cosSim = trainingVec.dot(test.reshape((-1, 1)))
         res = np.argsort(cosSim[:, 0])[::-1]
         result = []
-        for i in xrange(10):
+        for i in range(10):
             result.append(str(id2listing[res[i]]))
         return result
 
