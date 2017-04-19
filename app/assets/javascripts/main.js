@@ -41,9 +41,11 @@ function onSubmit( form ){
                         
                         // Display result
                         var price = Object.entries(response)[0][1];
+                        console.log(price)
                         var similar = Object.entries(response)[1][1];
+                        console.log(similar)
                         $("p.results")[0].innerHTML = price;
-                        $("P.similar")[0].innerHTML = similar;
+                        $("p.similar")[0].innerHTML = similar;
                         
         },
 
