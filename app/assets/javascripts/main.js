@@ -1,60 +1,69 @@
-function onSubmit( form ){
-      // console.log( $(form).serializeArray() );
-      // var data = JSON.stringify( $(form).serializeArray() ); 
-      var selected = [];
-      // console.log($('div.checkbox input:checked'));
-      $('div.checkbox input:checked').each(function() {
-          
-          selected.push($(this).attr('value'));
-      });
+$(document).ready(function() {
+  $('#row-input').show();
+  $('#row-prediction').hide();
 
-      // console.log(selected);
+  // add amenities dynamically
+  var amenities = [
+    'Pets in the house',
+    'Essentials',
+    'Wifi',
+    'Shampoo',
+    'Closet/drawers',
+    'TV',
+    'Heat',
+    'Air conditioning',
+    'Breakfast, coffee, tea',
+    'Desk/workspace',
+    'Fireplace',
+    'Iron',
+    'Hair dryer'
+  ];
 
-   
-      var data = {
-          'property_type': form.property_type.value,
-          'room_type': form.room_type.value,
-          'person_capacity':form.person_capacity.value,
-          'bedrooms':form.bedrooms.value,
-          'beds':form.bedrooms.value,
-          'bathrooms':form.bathrooms.value,
-          'amenities':selected,
-          'address':form.amenities.value,
-          'house_rules':form.amenities.value,
-          'description': form.description.value,
-          'classifier_type':form.classifier_type.value
-      };
-      var dataString =  JSON.stringify(data);
-    // console.log(dataString);
+  $('#amenities').html(
+    '<label for="amenities">What amenities do you offer?</label>');
+  amenities.forEach(function(item) {
+    $('#amenities').append(['<div class="checkbox">',
+      '<label><input type="checkbox" ',
+      'name="amenities" value="',
+      item,
+      '">',
+      item,
+      '</label></div>'
+    ].join(''));
+  });
 
-      $.ajax({
-        url:'/host/predict',
-        type: 'post',
-        data: dataString,
-        contentType:"application/json",
-        success: function(response){
-                        console.log("success");
-                        // Hide the form
-                        $("form")[0].style.display = "none";
-                        // Displayed the submitted info
-                        $("p.json")[0].innerHTML = dataString;
-                        
-                        // Display result
-                        var price = Object.entries(response)[0][1];
-                        console.log(price)
-                        var similar = Object.entries(response)[1][1];
-                        console.log(similar)
-                        $("p.results")[0].innerHTML = price;
-                        $("p.similar")[0].innerHTML = similar;
-                        
-        },
+  $('#btn-predict').click(function() {
+    var selected = [];
+    $('div.checkbox input:checked').each(function() {
+      selected.push($(this).attr('value'));
+    });
 
-        error: function () { console.log("alert"); },
-        dataType: 'json'
-      });
+    var data = {};
+    $('form').serializeArray().forEach(function(pair) {
+      data[pair.name] = pair.value;
+    });
 
-      return false; //don't submit
-}
+    $('p.json').html(JSON.stringify(data));
 
+    $.ajax({
+      url: '/host/predict',
+      type: 'post',
+      data: JSON.stringify(data),
+      contentType: 'application/json',
+      dataType: 'json',
+      success: function(response) {
+        // Hide the form
+        $('#row-input').hide();
+        // Displayed the submitted info
+        $('#row-prediction').show();
 
+        // Display result
+        var price = Object.entries(response)[0][1];
+        var similar = Object.entries(response)[1][1];
+        $('p.results').text(price);
+        $('p.similar').text(similar);
+      }
+    });
+  });
 
+});
