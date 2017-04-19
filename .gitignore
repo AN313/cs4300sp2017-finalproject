@@ -1,4 +1,5 @@
 # project specific
+*.ipynb
 *.pkl
 data/*
 .ipynb_checkpoints/
