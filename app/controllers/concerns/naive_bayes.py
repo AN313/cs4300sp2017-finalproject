@@ -36,9 +36,11 @@ class NaiveBayes(object):
             Y = np.zeros(len(files))
             for i, f in enumerate(files):
                 # read json into feature vector
+                if not f.endswith('.json'):
+                    continue
                 raw = open(os.path.join(self.dataDir, f), 'r')
                 listing = json.load(raw)
-                X[i] = bundle_json_obj(listing)
+                X[i] = self.bundle_json_obj(listing)
                 Y[i] = int(listing['price'] / 50)
         clf.fit(X, Y)
         joblib.dump(clf, os.path.join(
@@ -54,10 +56,14 @@ class NaiveBayes(object):
             Y = np.zeros(len(files))
             for i, f in enumerate(files):
                 # read json into dict
+                if not f.endswith('.json'):
+                    continue
                 raw = open(os.path.join(self.dataDir, f), 'r')
                 listing = json.load(raw)
-                X[i] = parse_str(listing['description'] +
-                                 listing['name'] + listing['house_rules'])
+                X[i] = self.parse_str('{} {} {}'.format(
+                                      listing['description'],
+                                      listing['name'],
+                                      listing['house_rules']))
                 Y[i] = int(listing['price'] / 50)
         clf.fit(X, Y)
         joblib.dump(clf, os.path.join(

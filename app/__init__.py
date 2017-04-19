@@ -10,8 +10,8 @@ view_dir = os.path.join(os.path.dirname(
 asset_dir = os.path.join(os.path.dirname(
     os.path.abspath(__file__)), 'assets')
 
-data_dir = os.path.join(os.path.dirname(
-                        os.path.abspath(__file__)), '../static/data')
+data_dir = os.path.realpath(os.path.join(os.path.dirname(
+                            os.path.abspath(__file__)), '../static/data'))
 
 nb = naive_bayes.NaiveBayes(data_dir, asset_dir)
 
@@ -26,6 +26,18 @@ def homeIndex():
 @app.route("/admin")
 def adminIndex():
     return "Hello Admin!"
+
+
+@app.route("/admin/trainDesc")
+def adminTrainDesc():
+    nb.train_classifier_desc()
+    return 'OK'
+
+
+@app.route("/admin/trainListing")
+def adminTrainListing():
+    nb.train_classifier_listing()
+    return 'OK'
 
 
 @app.route("/host")
