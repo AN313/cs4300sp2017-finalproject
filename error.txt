@@ -1,101 +1,101 @@
-2017-04-19T01:25:11.808493+00:00 app[web.1]:     self.callable = self.load()
-2017-04-19T01:25:11.808508+00:00 app[web.1]: AttributeError: 'NoneType' object has no attribute 'add_extra_file'
-2017-04-19T01:25:11.808827+00:00 app[web.1]: [2017-04-19 01:25:11 +0000] [8] [INFO] Worker exiting (pid: 8)
-2017-04-19T01:25:11.889416+00:00 app[web.1]: [2017-04-19 01:25:11 +0000] [9] [ERROR] invalid syntax (naive_bayes.py, line 68)
-2017-04-19T01:25:11.889419+00:00 app[web.1]: Traceback (most recent call last):
-2017-04-19T01:25:11.889420+00:00 app[web.1]:   File "/app/.heroku/python/lib/python3.6/site-packages/gunicorn/workers/base.py", line 135, in load_wsgi
-2017-04-19T01:25:11.889420+00:00 app[web.1]:     self.wsgi = self.app.wsgi()
-2017-04-19T01:25:11.889421+00:00 app[web.1]:   File "/app/.heroku/python/lib/python3.6/site-packages/gunicorn/app/base.py", line 67, in wsgi
-2017-04-19T01:25:11.889422+00:00 app[web.1]:     self.callable = self.load()
-2017-04-19T01:25:11.889422+00:00 app[web.1]:   File "/app/.heroku/python/lib/python3.6/site-packages/gunicorn/app/wsgiapp.py", line 65, in load
-2017-04-19T01:25:11.889423+00:00 app[web.1]:     return self.load_wsgiapp()
-2017-04-19T01:25:11.889423+00:00 app[web.1]:   File "/app/.heroku/python/lib/python3.6/site-packages/gunicorn/app/wsgiapp.py", line 52, in load_wsgiapp
-2017-04-19T01:25:11.889424+00:00 app[web.1]:     return util.import_app(self.app_uri)
-2017-04-19T01:25:11.889426+00:00 app[web.1]:   File "/app/server.py", line 1, in <module>
-2017-04-19T01:25:11.889425+00:00 app[web.1]:   File "/app/.heroku/python/lib/python3.6/site-packages/gunicorn/util.py", line 352, in import_app
-2017-04-19T01:25:11.889425+00:00 app[web.1]:     __import__(module)
-2017-04-19T01:25:11.889426+00:00 app[web.1]:     import app as info4300
-2017-04-19T01:25:11.889427+00:00 app[web.1]:   File "/app/app/__init__.py", line 3, in <module>
-2017-04-19T01:25:11.889428+00:00 app[web.1]:     from app.controllers.concerns import naive_bayes
-2017-04-19T01:25:11.889429+00:00 app[web.1]:   File "/app/app/controllers/concerns/naive_bayes.py", line 68
-2017-04-19T01:25:11.889429+00:00 app[web.1]:     print os.getcwd()
-2017-04-19T01:25:11.889430+00:00 app[web.1]:            ^
-2017-04-19T01:25:11.889435+00:00 app[web.1]: SyntaxError: invalid syntax
-2017-04-19T01:25:11.890077+00:00 app[web.1]: [2017-04-19 01:25:11 +0000] [9] [ERROR] Exception in worker process
-2017-04-19T01:25:11.890079+00:00 app[web.1]: Traceback (most recent call last):
-2017-04-19T01:25:11.890079+00:00 app[web.1]:   File "/app/.heroku/python/lib/python3.6/site-packages/gunicorn/workers/base.py", line 135, in load_wsgi
-2017-04-19T01:25:11.890080+00:00 app[web.1]:     self.wsgi = self.app.wsgi()
-2017-04-19T01:25:11.890081+00:00 app[web.1]:   File "/app/.heroku/python/lib/python3.6/site-packages/gunicorn/app/base.py", line 67, in wsgi
-2017-04-19T01:25:11.890081+00:00 app[web.1]:     self.callable = self.load()
-2017-04-19T01:25:11.890082+00:00 app[web.1]:   File "/app/.heroku/python/lib/python3.6/site-packages/gunicorn/app/wsgiapp.py", line 65, in load
-2017-04-19T01:25:11.890082+00:00 app[web.1]:     return self.load_wsgiapp()
-2017-04-19T01:25:11.890084+00:00 app[web.1]:     return util.import_app(self.app_uri)
-2017-04-19T01:25:11.890083+00:00 app[web.1]:   File "/app/.heroku/python/lib/python3.6/site-packages/gunicorn/app/wsgiapp.py", line 52, in load_wsgiapp
-2017-04-19T01:25:11.890084+00:00 app[web.1]:   File "/app/.heroku/python/lib/python3.6/site-packages/gunicorn/util.py", line 352, in import_app
-2017-04-19T01:25:11.890085+00:00 app[web.1]:     __import__(module)
-2017-04-19T01:25:11.890085+00:00 app[web.1]:   File "/app/server.py", line 1, in <module>
-2017-04-19T01:25:11.890086+00:00 app[web.1]:     import app as info4300
-2017-04-19T01:25:11.890093+00:00 app[web.1]:   File "/app/app/__init__.py", line 3, in <module>
-2017-04-19T01:25:11.890094+00:00 app[web.1]:     from app.controllers.concerns import naive_bayes
-2017-04-19T01:25:11.890095+00:00 app[web.1]:   File "/app/app/controllers/concerns/naive_bayes.py", line 68
-2017-04-19T01:25:11.890095+00:00 app[web.1]:     print os.getcwd()
-2017-04-19T01:25:11.890096+00:00 app[web.1]:            ^
-2017-04-19T01:25:11.890096+00:00 app[web.1]: SyntaxError: invalid syntax
-2017-04-19T01:25:11.890097+00:00 app[web.1]: 
-2017-04-19T01:25:11.890097+00:00 app[web.1]: During handling of the above exception, another exception occurred:
-2017-04-19T01:25:11.890098+00:00 app[web.1]: 
-2017-04-19T01:25:11.890098+00:00 app[web.1]: Traceback (most recent call last):
-2017-04-19T01:25:11.890099+00:00 app[web.1]:   File "/app/.heroku/python/lib/python3.6/site-packages/gunicorn/arbiter.py", line 578, in spawn_worker
-2017-04-19T01:25:11.890100+00:00 app[web.1]:     worker.init_process()
-2017-04-19T01:25:11.890100+00:00 app[web.1]:   File "/app/.heroku/python/lib/python3.6/site-packages/gunicorn/workers/base.py", line 126, in init_process
-2017-04-19T01:25:11.890101+00:00 app[web.1]:     self.load_wsgi()
-2017-04-19T01:25:11.890101+00:00 app[web.1]:   File "/app/.heroku/python/lib/python3.6/site-packages/gunicorn/workers/base.py", line 148, in load_wsgi
-2017-04-19T01:25:11.890102+00:00 app[web.1]:     self.reloader.add_extra_file(exc_val.filename)
-2017-04-19T01:25:11.890103+00:00 app[web.1]: AttributeError: 'NoneType' object has no attribute 'add_extra_file'
-2017-04-19T01:25:11.890447+00:00 app[web.1]: [2017-04-19 01:25:11 +0000] [9] [INFO] Worker exiting (pid: 9)
-2017-04-19T01:25:11.929657+00:00 app[web.1]: Traceback (most recent call last):
-2017-04-19T01:25:11.929662+00:00 app[web.1]:   File "/app/.heroku/python/lib/python3.6/site-packages/gunicorn/arbiter.py", line 209, in run
-2017-04-19T01:25:11.929982+00:00 app[web.1]:     self.sleep()
-2017-04-19T01:25:11.929984+00:00 app[web.1]:   File "/app/.heroku/python/lib/python3.6/site-packages/gunicorn/arbiter.py", line 359, in sleep
-2017-04-19T01:25:11.930204+00:00 app[web.1]:     ready = select.select([self.PIPE[0]], [], [], 1.0)
-2017-04-19T01:25:11.930205+00:00 app[web.1]:   File "/app/.heroku/python/lib/python3.6/site-packages/gunicorn/arbiter.py", line 244, in handle_chld
-2017-04-19T01:25:11.930369+00:00 app[web.1]:     self.reap_workers()
-2017-04-19T01:25:11.930371+00:00 app[web.1]:   File "/app/.heroku/python/lib/python3.6/site-packages/gunicorn/arbiter.py", line 524, in reap_workers
-2017-04-19T01:25:11.930619+00:00 app[web.1]:     raise HaltServer(reason, self.WORKER_BOOT_ERROR)
-2017-04-19T01:25:11.930676+00:00 app[web.1]: gunicorn.errors.HaltServer: <HaltServer 'Worker failed to boot.' 3>
-2017-04-19T01:25:11.930677+00:00 app[web.1]: 
-2017-04-19T01:25:11.930678+00:00 app[web.1]: During handling of the above exception, another exception occurred:
-2017-04-19T01:25:11.930678+00:00 app[web.1]: 
-2017-04-19T01:25:11.930680+00:00 app[web.1]: Traceback (most recent call last):
-2017-04-19T01:25:11.930681+00:00 app[web.1]:   File "/app/.heroku/python/bin/gunicorn", line 11, in <module>
-2017-04-19T01:25:11.930805+00:00 app[web.1]:     sys.exit(run())
-2017-04-19T01:25:11.930807+00:00 app[web.1]:   File "/app/.heroku/python/lib/python3.6/site-packages/gunicorn/app/wsgiapp.py", line 74, in run
-2017-04-19T01:25:11.930937+00:00 app[web.1]:     WSGIApplication("%(prog)s [OPTIONS] [APP_MODULE]").run()
-2017-04-19T01:25:11.930938+00:00 app[web.1]:   File "/app/.heroku/python/lib/python3.6/site-packages/gunicorn/app/base.py", line 203, in run
-2017-04-19T01:25:11.931107+00:00 app[web.1]:     super(Application, self).run()
-2017-04-19T01:25:11.931133+00:00 app[web.1]:   File "/app/.heroku/python/lib/python3.6/site-packages/gunicorn/app/base.py", line 72, in run
-2017-04-19T01:25:11.931268+00:00 app[web.1]:     Arbiter(self).run()
-2017-04-19T01:25:11.931270+00:00 app[web.1]:   File "/app/.heroku/python/lib/python3.6/site-packages/gunicorn/arbiter.py", line 231, in run
-2017-04-19T01:25:11.931471+00:00 app[web.1]:     self.halt(reason=inst.reason, exit_status=inst.exit_status)
-2017-04-19T01:25:11.931475+00:00 app[web.1]:   File "/app/.heroku/python/lib/python3.6/site-packages/gunicorn/arbiter.py", line 344, in halt
-2017-04-19T01:25:11.931676+00:00 app[web.1]:     self.stop()
-2017-04-19T01:25:11.931680+00:00 app[web.1]:   File "/app/.heroku/python/lib/python3.6/site-packages/gunicorn/arbiter.py", line 393, in stop
-2017-04-19T01:25:11.931925+00:00 app[web.1]:     time.sleep(0.1)
-2017-04-19T01:25:11.931929+00:00 app[web.1]:   File "/app/.heroku/python/lib/python3.6/site-packages/gunicorn/arbiter.py", line 244, in handle_chld
-2017-04-19T01:25:11.932102+00:00 app[web.1]:     self.reap_workers()
-2017-04-19T01:25:11.932107+00:00 app[web.1]:   File "/app/.heroku/python/lib/python3.6/site-packages/gunicorn/arbiter.py", line 524, in reap_workers
-2017-04-19T01:25:11.932329+00:00 app[web.1]:     raise HaltServer(reason, self.WORKER_BOOT_ERROR)
-2017-04-19T01:25:11.932347+00:00 app[web.1]: gunicorn.errors.HaltServer: <HaltServer 'Worker failed to boot.' 3>
-2017-04-19T01:25:12.031892+00:00 heroku[web.1]: State changed from starting to crashed
-2017-04-19T01:25:12.003114+00:00 heroku[web.1]: Process exited with status 1
-2017-04-19T01:26:13.895903+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/" host=airbnbpricesuggestion.herokuapp.com request_id=f3f4da99-7353-4cfe-b6c9-542e872ae9bb fwd="74.79.254.219" dyno= connect= service= status=503 bytes= protocol=https
-2017-04-19T01:26:46.584520+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/" host=airbnbpricesuggestion.herokuapp.com request_id=afcbc038-c348-449e-ac48-807ab38dcc47 fwd="74.79.254.219" dyno= connect= service= status=503 bytes= protocol=https
-2017-04-19T01:26:51.765745+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/host" host=airbnbpricesuggestion.herokuapp.com request_id=6284a776-9a3e-40e6-abf0-2b8e2adb2b09 fwd="74.79.254.219" dyno= connect= service= status=503 bytes= protocol=https
-2017-04-19T01:26:56.526023+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/host" host=airbnbpricesuggestion.herokuapp.com request_id=c003fb08-cc85-4465-84d9-3de399826a6a fwd="74.79.254.219" dyno= connect= service= status=503 bytes= protocol=https
-2017-04-19T01:28:16.094560+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/host" host=airbnbpricesuggestion.herokuapp.com request_id=5e54e4aa-baa1-490e-9196-5249689a9641 fwd="74.79.254.219" dyno= connect= service= status=503 bytes= protocol=https
-2017-04-19T01:28:19.344593+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/" host=airbnbpricesuggestion.herokuapp.com request_id=583a0551-aa47-4fcf-ab61-285c11813dae fwd="74.79.254.219" dyno= connect= service= status=503 bytes= protocol=https
-2017-04-19T01:28:57.408373+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/" host=airbnbpricesuggestion.herokuapp.com request_id=9db0d0bf-fbac-4f23-81e9-528f669a4eec fwd="74.79.254.219" dyno= connect= service= status=503 bytes= protocol=https
-2017-04-19T01:29:01.564287+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/" host=airbnbpricesuggestion.herokuapp.com request_id=e4b1a264-79a7-4724-8e93-cbc17f410cb1 fwd="74.79.254.219" dyno= connect= service= status=503 bytes= protocol=https
-2017-04-19T01:31:17.307508+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/" host=airbnbpricesuggestion.herokuapp.com request_id=8ae1b757-db4f-4b41-99cb-f3968dd6ac59 fwd="74.79.254.219" dyno= connect= service= status=503 bytes= protocol=https
-2017-04-19T01:31:43.652741+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/" host=airbnbpricesuggestion.herokuapp.com request_id=26c1f4ba-edbb-4a79-8234-863a471cd86d fwd="67.249.82.189" dyno= connect= service= status=503 bytes= protocol=https
-2017-04-19T01:31:44.412729+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/favicon.ico" host=airbnbpricesuggestion.herokuapp.com request_id=89544925-6a98-4cfb-ab3c-43b0c0079a13 fwd="67.249.82.189" dyno= connect= service= status=503 bytes= protocol=https
+2017-04-19T01:38:24.455792+00:00 app[web.1]:     return util.import_app(self.app_uri)
+2017-04-19T01:38:24.455793+00:00 app[web.1]:   File "/app/.heroku/python/lib/python3.6/site-packages/gunicorn/util.py", line 352, in import_app
+2017-04-19T01:38:24.455794+00:00 app[web.1]:     __import__(module)
+2017-04-19T01:38:24.455794+00:00 app[web.1]:   File "/app/server.py", line 1, in <module>
+2017-04-19T01:38:24.455795+00:00 app[web.1]:     import app as info4300
+2017-04-19T01:38:24.455796+00:00 app[web.1]:   File "/app/app/__init__.py", line 3, in <module>
+2017-04-19T01:38:24.455797+00:00 app[web.1]:     from app.controllers.concerns import naive_bayes
+2017-04-19T01:38:24.455798+00:00 app[web.1]:   File "/app/app/controllers/concerns/naive_bayes.py", line 4, in <module>
+2017-04-19T01:38:24.455798+00:00 app[web.1]:     import os, json, nltk
+2017-04-19T01:38:24.455803+00:00 app[web.1]: ModuleNotFoundError: No module named 'nltk'
+2017-04-19T01:38:24.456285+00:00 app[web.1]: [2017-04-19 01:38:24 +0000] [9] [INFO] Worker exiting (pid: 9)
+2017-04-19T01:38:24.458070+00:00 app[web.1]: [2017-04-19 01:38:24 +0000] [8] [ERROR] Exception in worker process
+2017-04-19T01:38:24.458071+00:00 app[web.1]: Traceback (most recent call last):
+2017-04-19T01:38:24.458072+00:00 app[web.1]:   File "/app/.heroku/python/lib/python3.6/site-packages/gunicorn/arbiter.py", line 578, in spawn_worker
+2017-04-19T01:38:24.458073+00:00 app[web.1]:     worker.init_process()
+2017-04-19T01:38:24.458074+00:00 app[web.1]:   File "/app/.heroku/python/lib/python3.6/site-packages/gunicorn/workers/base.py", line 126, in init_process
+2017-04-19T01:38:24.458074+00:00 app[web.1]:     self.load_wsgi()
+2017-04-19T01:38:24.458075+00:00 app[web.1]:   File "/app/.heroku/python/lib/python3.6/site-packages/gunicorn/workers/base.py", line 135, in load_wsgi
+2017-04-19T01:38:24.458076+00:00 app[web.1]:     self.wsgi = self.app.wsgi()
+2017-04-19T01:38:24.458076+00:00 app[web.1]:   File "/app/.heroku/python/lib/python3.6/site-packages/gunicorn/app/base.py", line 67, in wsgi
+2017-04-19T01:38:24.458077+00:00 app[web.1]:     self.callable = self.load()
+2017-04-19T01:38:24.458078+00:00 app[web.1]:   File "/app/.heroku/python/lib/python3.6/site-packages/gunicorn/app/wsgiapp.py", line 65, in load
+2017-04-19T01:38:24.458078+00:00 app[web.1]:     return self.load_wsgiapp()
+2017-04-19T01:38:24.458079+00:00 app[web.1]:   File "/app/.heroku/python/lib/python3.6/site-packages/gunicorn/app/wsgiapp.py", line 52, in load_wsgiapp
+2017-04-19T01:38:24.458079+00:00 app[web.1]:     return util.import_app(self.app_uri)
+2017-04-19T01:38:24.458080+00:00 app[web.1]:   File "/app/.heroku/python/lib/python3.6/site-packages/gunicorn/util.py", line 352, in import_app
+2017-04-19T01:38:24.458081+00:00 app[web.1]:     __import__(module)
+2017-04-19T01:38:24.458081+00:00 app[web.1]:   File "/app/server.py", line 1, in <module>
+2017-04-19T01:38:24.458082+00:00 app[web.1]:     import app as info4300
+2017-04-19T01:38:24.458083+00:00 app[web.1]:   File "/app/app/__init__.py", line 3, in <module>
+2017-04-19T01:38:24.458083+00:00 app[web.1]:     from app.controllers.concerns import naive_bayes
+2017-04-19T01:38:24.458084+00:00 app[web.1]:   File "/app/app/controllers/concerns/naive_bayes.py", line 4, in <module>
+2017-04-19T01:38:24.458085+00:00 app[web.1]:     import os, json, nltk
+2017-04-19T01:38:24.458088+00:00 app[web.1]: ModuleNotFoundError: No module named 'nltk'
+2017-04-19T01:38:24.458582+00:00 app[web.1]: [2017-04-19 01:38:24 +0000] [8] [INFO] Worker exiting (pid: 8)
+2017-04-19T01:38:24.674045+00:00 app[web.1]: [2017-04-19 01:38:24 +0000] [4] [INFO] Shutting down: Master
+2017-04-19T01:38:24.674191+00:00 app[web.1]: [2017-04-19 01:38:24 +0000] [4] [INFO] Reason: Worker failed to boot.
+2017-04-19T01:38:24.777950+00:00 heroku[web.1]: State changed from up to crashed
+2017-04-19T01:38:24.761247+00:00 heroku[web.1]: Process exited with status 3
+2017-04-19T01:38:36.575439+00:00 heroku[web.1]: State changed from crashed to starting
+2017-04-19T01:38:46.035096+00:00 heroku[web.1]: Starting process with command `gunicorn server:app`
+2017-04-19T01:38:48.612736+00:00 app[web.1]: [2017-04-19 01:38:48 +0000] [4] [INFO] Listening at: http://0.0.0.0:45629 (4)
+2017-04-19T01:38:48.612726+00:00 app[web.1]: [2017-04-19 01:38:48 +0000] [4] [INFO] Starting gunicorn 19.7.1
+2017-04-19T01:38:48.612736+00:00 app[web.1]: [2017-04-19 01:38:48 +0000] [4] [INFO] Using worker: sync
+2017-04-19T01:38:48.616303+00:00 app[web.1]: [2017-04-19 01:38:48 +0000] [8] [INFO] Booting worker with pid: 8
+2017-04-19T01:38:48.634030+00:00 app[web.1]: [2017-04-19 01:38:48 +0000] [9] [INFO] Booting worker with pid: 9
+2017-04-19T01:38:49.668361+00:00 heroku[web.1]: State changed from starting to up
+2017-04-19T01:38:51.544831+00:00 app[web.1]: [2017-04-19 01:38:51 +0000] [8] [ERROR] Exception in worker process
+2017-04-19T01:38:51.544862+00:00 app[web.1]:   File "/app/.heroku/python/lib/python3.6/site-packages/gunicorn/arbiter.py", line 578, in spawn_worker
+2017-04-19T01:38:51.544855+00:00 app[web.1]: Traceback (most recent call last):
+2017-04-19T01:38:51.544863+00:00 app[web.1]:     worker.init_process()
+2017-04-19T01:38:51.544864+00:00 app[web.1]:   File "/app/.heroku/python/lib/python3.6/site-packages/gunicorn/workers/base.py", line 126, in init_process
+2017-04-19T01:38:51.544864+00:00 app[web.1]:     self.load_wsgi()
+2017-04-19T01:38:51.544865+00:00 app[web.1]:   File "/app/.heroku/python/lib/python3.6/site-packages/gunicorn/workers/base.py", line 135, in load_wsgi
+2017-04-19T01:38:51.544866+00:00 app[web.1]:     self.wsgi = self.app.wsgi()
+2017-04-19T01:38:51.544867+00:00 app[web.1]:   File "/app/.heroku/python/lib/python3.6/site-packages/gunicorn/app/base.py", line 67, in wsgi
+2017-04-19T01:38:51.544868+00:00 app[web.1]:     self.callable = self.load()
+2017-04-19T01:38:51.544868+00:00 app[web.1]:   File "/app/.heroku/python/lib/python3.6/site-packages/gunicorn/app/wsgiapp.py", line 65, in load
+2017-04-19T01:38:51.544869+00:00 app[web.1]:     return self.load_wsgiapp()
+2017-04-19T01:38:51.544870+00:00 app[web.1]:   File "/app/.heroku/python/lib/python3.6/site-packages/gunicorn/app/wsgiapp.py", line 52, in load_wsgiapp
+2017-04-19T01:38:51.544870+00:00 app[web.1]:     return util.import_app(self.app_uri)
+2017-04-19T01:38:51.544871+00:00 app[web.1]:   File "/app/.heroku/python/lib/python3.6/site-packages/gunicorn/util.py", line 352, in import_app
+2017-04-19T01:38:51.544871+00:00 app[web.1]:     __import__(module)
+2017-04-19T01:38:51.544872+00:00 app[web.1]:   File "/app/server.py", line 1, in <module>
+2017-04-19T01:38:51.544872+00:00 app[web.1]:     import app as info4300
+2017-04-19T01:38:51.544873+00:00 app[web.1]:   File "/app/app/__init__.py", line 3, in <module>
+2017-04-19T01:38:51.544874+00:00 app[web.1]:     from app.controllers.concerns import naive_bayes
+2017-04-19T01:38:51.544874+00:00 app[web.1]:   File "/app/app/controllers/concerns/naive_bayes.py", line 4, in <module>
+2017-04-19T01:38:51.544874+00:00 app[web.1]:     import os, json, nltk
+2017-04-19T01:38:51.544879+00:00 app[web.1]: ModuleNotFoundError: No module named 'nltk'
+2017-04-19T01:38:51.545397+00:00 app[web.1]: [2017-04-19 01:38:51 +0000] [8] [INFO] Worker exiting (pid: 8)
+2017-04-19T01:38:51.547030+00:00 app[web.1]: [2017-04-19 01:38:51 +0000] [9] [ERROR] Exception in worker process
+2017-04-19T01:38:51.547031+00:00 app[web.1]: Traceback (most recent call last):
+2017-04-19T01:38:51.547032+00:00 app[web.1]:   File "/app/.heroku/python/lib/python3.6/site-packages/gunicorn/arbiter.py", line 578, in spawn_worker
+2017-04-19T01:38:51.547033+00:00 app[web.1]:     worker.init_process()
+2017-04-19T01:38:51.547033+00:00 app[web.1]:   File "/app/.heroku/python/lib/python3.6/site-packages/gunicorn/workers/base.py", line 126, in init_process
+2017-04-19T01:38:51.547034+00:00 app[web.1]:     self.load_wsgi()
+2017-04-19T01:38:51.547035+00:00 app[web.1]:   File "/app/.heroku/python/lib/python3.6/site-packages/gunicorn/workers/base.py", line 135, in load_wsgi
+2017-04-19T01:38:51.547035+00:00 app[web.1]:     self.wsgi = self.app.wsgi()
+2017-04-19T01:38:51.547036+00:00 app[web.1]:   File "/app/.heroku/python/lib/python3.6/site-packages/gunicorn/app/base.py", line 67, in wsgi
+2017-04-19T01:38:51.547037+00:00 app[web.1]:     self.callable = self.load()
+2017-04-19T01:38:51.547038+00:00 app[web.1]:   File "/app/.heroku/python/lib/python3.6/site-packages/gunicorn/app/wsgiapp.py", line 65, in load
+2017-04-19T01:38:51.547038+00:00 app[web.1]:     return self.load_wsgiapp()
+2017-04-19T01:38:51.547039+00:00 app[web.1]:   File "/app/.heroku/python/lib/python3.6/site-packages/gunicorn/app/wsgiapp.py", line 52, in load_wsgiapp
+2017-04-19T01:38:51.547040+00:00 app[web.1]:     return util.import_app(self.app_uri)
+2017-04-19T01:38:51.547040+00:00 app[web.1]:   File "/app/.heroku/python/lib/python3.6/site-packages/gunicorn/util.py", line 352, in import_app
+2017-04-19T01:38:51.547041+00:00 app[web.1]:     __import__(module)
+2017-04-19T01:38:51.547041+00:00 app[web.1]:   File "/app/server.py", line 1, in <module>
+2017-04-19T01:38:51.547042+00:00 app[web.1]:     import app as info4300
+2017-04-19T01:38:51.547043+00:00 app[web.1]:   File "/app/app/__init__.py", line 3, in <module>
+2017-04-19T01:38:51.547043+00:00 app[web.1]:     from app.controllers.concerns import naive_bayes
+2017-04-19T01:38:51.547044+00:00 app[web.1]:   File "/app/app/controllers/concerns/naive_bayes.py", line 4, in <module>
+2017-04-19T01:38:51.547044+00:00 app[web.1]:     import os, json, nltk
+2017-04-19T01:38:51.547047+00:00 app[web.1]: ModuleNotFoundError: No module named 'nltk'
+2017-04-19T01:38:51.551659+00:00 app[web.1]: [2017-04-19 01:38:51 +0000] [9] [INFO] Worker exiting (pid: 9)
+2017-04-19T01:38:51.757152+00:00 app[web.1]: [2017-04-19 01:38:51 +0000] [4] [INFO] Shutting down: Master
+2017-04-19T01:38:51.757336+00:00 app[web.1]: [2017-04-19 01:38:51 +0000] [4] [INFO] Reason: Worker failed to boot.
+2017-04-19T01:38:51.954945+00:00 heroku[web.1]: State changed from up to crashed
+2017-04-19T01:38:51.933208+00:00 heroku[web.1]: Process exited with status 3
+2017-04-19T01:38:52.849476+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/" host=airbnbpricesuggestion.herokuapp.com request_id=8d419265-2240-4560-8c14-a49a79f786f8 fwd="74.79.254.219" dyno=web.1 connect=1ms service= status=503 bytes= protocol=https
+2017-04-19T01:39:06.342498+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/" host=airbnbpricesuggestion.herokuapp.com request_id=15b576ed-fb2b-4c55-a153-d093351dd5d2 fwd="74.79.254.219" dyno= connect= service= status=503 bytes= protocol=https
