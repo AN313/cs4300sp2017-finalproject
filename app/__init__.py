@@ -1,7 +1,13 @@
-from flask import Flask, request, render_template, send_from_directory
+from flask import Flask, request, render_template, send_from_directory, jsonify
 import json
-from app.controllers.concerns import naive_bayes
+from app.controllers.concerns import naive_bayes, b2_storage
 import os
+from dotenv import load_dotenv
+import threading
+
+dotenv_path = os.path.realpath(os.path.join(os.path.dirname(
+                               os.path.abspath(__file__)), '../.env'))
+load_dotenv(dotenv_path)
 
 view_dir = os.path.join(os.path.dirname(
                         os.path.abspath(__file__)), 'views')
@@ -16,6 +22,11 @@ data_dir = os.path.realpath(os.path.join(os.path.dirname(
 nb = naive_bayes.NaiveBayes(data_dir, asset_dir)
 
 app = Flask(__name__, template_folder=view_dir)
+
+b2s = b2_storage.B2Storage(os.environ['B2_ID'], os.environ['B2_KEY'])
+b2s.renewUploadToken()
+renewT = threading.Timer(86400, b2s.renewUploadToken)
+renewT.start()
 
 
 @app.route("/")
@@ -38,6 +49,20 @@ def adminTrainDesc():
 def adminTrainListing():
     nb.train_classifier_listing()
     return 'OK'
+
+
+@app.route("/admin/uploadJson", methods=['POST'])
+def adminUploadJson():
+    fileJson = request.json
+    res = b2s.upload(fileJson['name'], fileJson['data'],
+                     'application/json')
+    return jsonify(res)
+
+
+@app.route("/admin/downloadJson")
+def adminDownloadJson():
+    res = b2s.download(request.args['name'])
+    return jsonify(res)
 
 
 @app.route("/host")
