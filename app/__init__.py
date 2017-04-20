@@ -87,7 +87,7 @@ def hostPredict():
     low = priceClass * 50
     high = (priceClass + 1) * 50 - 1
 
-    return json.dumps({
+    return jsonify({
         'priceClass': str(low) + " ~ " + str(high),
         'similar': ' '.join(similar)
     })
@@ -104,7 +104,7 @@ def travelerIndex():
 @app.route("/traveler/predict")
 def travelerPredict():
     url = request.args['url']
-    return json.dumps({
+    return jsonify({
         'for': url,
         'priceRange': [100, 200]
     })
