@@ -30,6 +30,20 @@ The app has the following endpoints. Either access them in a web browser, or for
 
 - Admin homepage
 
+`/admin/uploadJson`
+
+- Upload a JSON file to cloud Storage. File must be sent serialized.
+- method: `POST`
+- in: `application/json`
+- format: `{"name": String, "data": String}`
+
+`/admin/downloadJson`
+
+- Get a JSON file from cloud Storage. File arrives deserialized.
+- method: `GET`
+- in: query string
+- format: `name: String`
+
 `/host`
 
 - Host homepage
