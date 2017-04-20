@@ -62,7 +62,7 @@ The app has the following endpoints. Either access them in a web browser, or for
 `/traveler/predict`
 
 - Traveler price prediction
-- method: `POST`
+- method: `GET`
 - in: query string
 - format: `url: String`
 
