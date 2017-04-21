@@ -70,4 +70,13 @@ class B2Storage(object):
                                      filename)
         headers = {'Authorization': self.tokens['account']}
         response_data = requests.get(url, headers=headers).text
-        return json.loads(response_data)
+        return response_data
+
+    def ls(self, pathname):
+        response_data = requests.post(
+            '%s/b2api/v1/b2_list_file_names' % self.urls['api'],
+            data=json.dumps({'bucketId': self.bucket['id']}),
+            headers={'Authorization': self.tokens['account']}
+        ).json()['files']
+        return [fn for fn in response_data if
+                fn['fileName'].startswith(pathname)]
