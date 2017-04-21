@@ -71,6 +71,14 @@ class B2Storage(object):
         response_data = requests.get(url, headers=headers).text
         return response_data
 
+    def downloadRaw(self, filename):
+        url = '{}/file/{}/{}'.format(self.urls['download'],
+                                     self.bucket['name'],
+                                     filename)
+        headers = {'Authorization': self.tokens['account']}
+        response_data = requests.get(url, headers=headers).content
+        return response_data
+
     def ls(self, pathname):
         response_data = requests.post(
             '%s/b2api/v1/b2_list_file_names' % self.urls['api'],

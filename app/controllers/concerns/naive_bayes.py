@@ -41,8 +41,8 @@ class NaiveBayes(object):
             # read json into feature vector
             if not f.endswith('.json'):
                 continue
-            raw = self.b2s.download(f)
-            listing = json.loads(raw)
+            textJson = self.b2s.download(f)
+            listing = json.loads(textJson)
             X[i] = self.bundle_json_obj(listing)
             Y[i] = int(listing['price'] / 50)
         self.clfListing.fit(X, Y)
@@ -63,8 +63,8 @@ class NaiveBayes(object):
             # read json into dict
             if not f.endswith('.json'):
                 continue
-            raw = self.b2s.download(f)
-            listing = json.loads(raw)
+            textJson = self.b2s.download(f)
+            listing = json.loads(textJson)
             X[i] = self.parse_str('{} {} {}'.format(
                                   listing['description'],
                                   listing['name'],
@@ -75,7 +75,7 @@ class NaiveBayes(object):
         joblib.dump(self.clfDesc, temp.name)
         self.b2s.upload('classifiers/nb_str.pkl',
                         temp.read(), 'application/octet-stream')
-        return self.clf.score(X, Y)
+        return self.clfDesc.score(X, Y)
 
     # Input:
     # jsonObj: json object
@@ -83,7 +83,8 @@ class NaiveBayes(object):
         test = self.bundle_json_obj(jsonObj)
         if self.clfListing is None:
             temp = tempfile.TemporaryFile()
-            temp.write(self.b2s.download('classifiers/nb_listing.pkl'))
+            temp.write(self.b2s.downloadRaw(
+                       'classifiers/nb_listing.pkl'))
             self.clfListing = joblib.load(temp)
         return self.clfListing.predict(test)
 
@@ -93,7 +94,8 @@ class NaiveBayes(object):
         test = self.parse_str(strObj)
         if self.clfDesc is None:
             temp = tempfile.TemporaryFile()
-            temp.write(self.b2s.download('classifiers/nb_str.pkl'))
+            temp.write(bytearray(self.b2s.downloadRaw(
+                       'classifiers/nb_str.pkl')))
             self.clfDesc = joblib.load(temp)
         return self.clfDesc.predict(test)
 
@@ -102,12 +104,14 @@ class NaiveBayes(object):
 
         if self.trainingVec is None:
             temp = tempfile.TemporaryFile()
-            temp.write(self.b2s.download('classifiers/listing_vecs.pkl'))
+            temp.write(self.b2s.downloadRaw(
+                       'classifiers/listing_vecs.pkl'))
             self.trainingVec = joblib.load(temp)
 
         if self.id2listing is None:
             temp = tempfile.TemporaryFile()
-            temp.write(self.b2s.download('classifiers/listing_vecs.pkl'))
+            temp.write(bytearray(self.b2s.downloadRaw(
+                       'classifiers/listing_vecs.pkl')))
             self.id2listing = joblib.load(temp)
 
         cosSim = self.trainingVec.dot(test.reshape((-1, 1)))
