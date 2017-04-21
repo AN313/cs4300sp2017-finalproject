@@ -62,6 +62,12 @@ def adminUploadJson():
 @app.route("/admin/downloadJson")
 def adminDownloadJson():
     res = b2s.download(request.args['name'])
+    return jsonify(json.loads(res))
+
+
+@app.route("/admin/listFiles")
+def adminListFiles():
+    res = b2s.ls(request.args['pathname'])
     return jsonify(res)
 
 
