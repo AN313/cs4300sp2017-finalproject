@@ -30,6 +30,16 @@ The app has the following endpoints. Either access them in a web browser, or for
 
 - Admin homepage
 
+`/admin/trainDesc`
+
+- Train classifier based on training data.
+- method: `GET`
+
+`/admin/trainListing`
+
+- Train classifier based on training data.
+- method: `GET`
+
 `/admin/uploadJson`
 
 - Upload a JSON file to cloud Storage. File must be sent serialized.

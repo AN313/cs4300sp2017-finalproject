@@ -29,46 +29,48 @@ class NaiveBayes(object):
     # trains a naive bayes classifier on listings in /data/sensei
     def train_classifier_listing(self):
         clf = GaussianNB()
-        files = b2s.ls('data/training')
+        files = self.b2s.ls('data/training')
         X = np.zeros((len(files), self.numFeat))
         Y = np.zeros(len(files))
-        for i, f in enumerate(files):
+        for i, file in enumerate(files):
+            f = file['fileName']
             # read json into feature vector
             if not f.endswith('.json'):
                 continue
-            raw = b2s.download('data/training/' + f)
-            listing = json.load(raw)
+            raw = self.b2s.download(f)
+            listing = json.loads(raw)
             X[i] = self.bundle_json_obj(listing)
             Y[i] = int(listing['price'] / 50)
         clf.fit(X, Y)
-        temp = tempfile.TemporaryFile()
-        joblib.dump(clf, temp)
-        b2s.upload('classifiers/nb_listing.pkl',
-                   temp.read(), 'application/octet-stream')
+        temp = tempfile.NamedTemporaryFile()
+        joblib.dump(clf, temp.name)
+        self.b2s.upload('classifiers/nb_listing.pkl',
+                        temp.read(), 'application/octet-stream')
         return clf.score(X, Y)
 
     # train a classifier on description
     def train_classifier_desc(self):
         clf = MultinomialNB()
-        files = b2s.ls('data/training')
+        files = self.b2s.ls('data/training')
         X = np.zeros((len(files), self.strFeat))
         Y = np.zeros(len(files))
-        for i, f in enumerate(files):
+        for i, file in enumerate(files):
+            f = file['fileName']
             # read json into dict
             if not f.endswith('.json'):
                 continue
-            raw = b2s.download('data/training/' + f)
-            listing = json.load(raw)
+            raw = self.b2s.download(f)
+            listing = json.loads(raw)
             X[i] = self.parse_str('{} {} {}'.format(
                                   listing['description'],
                                   listing['name'],
                                   listing['house_rules']))
             Y[i] = int(listing['price'] / 50)
         clf.fit(X, Y)
-        temp = tempfile.TemporaryFile()
-        joblib.dump(clf, temp)
-        b2s.upload('classifiers/nb_str.pkl',
-                   temp.read(), 'application/octet-stream')
+        temp = tempfile.NamedTemporaryFile()
+        joblib.dump(clf, temp.name)
+        self.b2s.upload('classifiers/nb_str.pkl',
+                        temp.read(), 'application/octet-stream')
         return clf.score(X, Y)
 
     # Input:
@@ -76,7 +78,7 @@ class NaiveBayes(object):
     def predict_listing(self, jsonObj):
         test = self.bundle_json_obj(jsonObj)
         temp = tempfile.TemporaryFile()
-        json.dump(b2s.download('classifiers/nb_listing.pkl'), temp)
+        json.dump(self.b2s.download('classifiers/nb_listing.pkl'), temp)
         clf = joblib.load(temp)
         return clf.predict(test)
 
@@ -85,7 +87,7 @@ class NaiveBayes(object):
     def predict_str(self, strObj):
         test = self.parse_str(strObj)
         temp = tempfile.TemporaryFile()
-        json.dump(b2s.download('classifiers/nb_str.pkl'), temp)
+        json.dump(self.b2s.download('classifiers/nb_str.pkl'), temp)
         clf = joblib.load(temp)
         return clf.predict(test)
 
@@ -93,11 +95,11 @@ class NaiveBayes(object):
         test = self.parse_str(strObj)
 
         temp = tempfile.TemporaryFile()
-        json.dump(b2s.download('classifiers/listing_vecs.pkl'), temp)
+        json.dump(self.b2s.download('classifiers/listing_vecs.pkl'), temp)
         trainingVec = joblib.load(temp)
 
         temp = tempfile.TemporaryFile()
-        json.dump(b2s.download('classifiers/listing_vecs.pkl'), temp)
+        json.dump(self.b2s.download('classifiers/listing_vecs.pkl'), temp)
         id2listing = joblib.load(temp)
 
         cosSim = trainingVec.dot(test.reshape((-1, 1)))
