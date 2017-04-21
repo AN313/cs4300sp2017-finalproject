@@ -46,7 +46,7 @@ def homeIndex():
 
 @app.route("/admin")
 def adminIndex():
-    return "Hello Admin!"
+    return render_template('admin.html')
 
 
 @app.route("/admin/crawl")
@@ -151,3 +151,9 @@ def send_js(path):
 def send_css(path):
     print(path)
     return send_from_directory(os.path.join(asset_dir, 'stylesheets'), path)
+
+
+@app.route('/static/fonts/<path:path>')
+def send_fonts(path):
+    print(path)
+    return send_from_directory(os.path.join(asset_dir, 'fonts'), path)
