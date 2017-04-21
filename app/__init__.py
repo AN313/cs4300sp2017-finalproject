@@ -54,7 +54,7 @@ def adminTrainListing():
 @app.route("/admin/uploadJson", methods=['POST'])
 def adminUploadJson():
     fileJson = request.json
-    res = b2s.upload(fileJson['name'], fileJson['data'],
+    res = b2s.upload(fileJson['name'], fileJson['data'].encode('utf-8'),
                      'application/json')
     return jsonify(res)
 

@@ -48,8 +48,7 @@ class B2Storage(object):
     #     self.tokens['download'] = response_data['authorizationToken']
 
     def upload(self, filename, data, contentType):
-        binData = data.encode('utf-8')
-        sha1 = hashlib.sha1(binData).hexdigest()
+        sha1 = hashlib.sha1(data).hexdigest()
 
         headers = {
             'Authorization': self.tokens['upload'],
@@ -59,7 +58,7 @@ class B2Storage(object):
         }
         response_data = requests.post(
             self.urls['upload'],
-            data=binData,
+            data=data,
             headers=headers
         ).json()
         return response_data
