@@ -44,6 +44,13 @@ The app has the following endpoints. Either access them in a web browser, or for
 - in: query string
 - format: `name: String`
 
+`/admin/listFiles`
+
+- Get an array of files starting with a prefix.
+- method: `GET`
+- in: query string
+- format: `pathname: String`
+
 `/host`
 
 - Host homepage
