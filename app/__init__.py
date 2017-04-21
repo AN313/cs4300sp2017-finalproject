@@ -19,7 +19,6 @@ asset_dir = os.path.join(os.path.dirname(
 data_dir = os.path.realpath(os.path.join(os.path.dirname(
                             os.path.abspath(__file__)), '../static/data'))
 
-nb = naive_bayes.NaiveBayes(data_dir, asset_dir)
 
 app = Flask(__name__, template_folder=view_dir)
 
@@ -27,6 +26,8 @@ b2s = b2_storage.B2Storage(os.environ['B2_ID'], os.environ['B2_KEY'])
 b2s.renewUploadToken()
 renewT = threading.Timer(86400, b2s.renewUploadToken)
 renewT.start()
+
+nb = naive_bayes.NaiveBayes(b2s)
 
 
 @app.route("/")
