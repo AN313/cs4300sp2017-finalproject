@@ -1,9 +1,13 @@
-from flask import Flask, request, render_template, send_from_directory, jsonify
+from flask import Flask, request, render_template, send_from_directory, \
+                  jsonify, stream_with_context, Response
 import json
-from app.controllers.concerns import naive_bayes, b2_storage
+from app.controllers.concerns import naive_bayes, b2_storage, airbnb_crawler
 import os
 from dotenv import load_dotenv
 import threading
+import time
+import gevent
+
 
 dotenv_path = os.path.realpath(os.path.join(os.path.dirname(
                                os.path.abspath(__file__)), '../.env'))
@@ -29,6 +33,11 @@ renewT.start()
 
 nb = naive_bayes.NaiveBayes(b2s)
 
+crawler = airbnb_crawler.AirbnbCrawler(
+    os.path.join(data_dir, 'newyork.csv'),
+    os.environ['ABB_USER'], os.environ['ABB_PASSWORD'], b2s
+)
+
 
 @app.route("/")
 def homeIndex():
@@ -38,6 +47,15 @@ def homeIndex():
 @app.route("/admin")
 def adminIndex():
     return "Hello Admin!"
+
+
+@app.route("/admin/crawl")
+def adminCrawl():
+    posBegin = int(request.args['begin'], base=10)
+    posEnd = int(request.args['end'], base=10)
+    i = int(request.args['i'], base=10)
+    res = crawler.crawl(i, posBegin, posEnd, noSave=False)
+    return jsonify(res)
 
 
 @app.route("/admin/trainDesc")
