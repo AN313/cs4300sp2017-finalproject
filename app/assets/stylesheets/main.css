@@ -1,3 +1,21 @@
 body {
   padding-top: 65px;
+  background-image: url("../images/city-background.jpg");
+}
+
+.left-contain {
+  width: 50%;
+  float: left;
+}
+
+.right-contain{
+  width: 50%;
+  float: right;
+}
+
+footer {
+  float: right;
+  padding-top: 20px;
+  padding-right: 20px;
+  padding-bottom: 5px;
 }

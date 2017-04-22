@@ -2,7 +2,18 @@ $(document).ready(function() {
   $('#row-input').show();
   $('#row-prediction').hide();
 
-  // add amenities dynamically
+  $("[name='my-checkbox']").bootstrapSwitch();
+
+  $("[name='my-checkbox']").on('switchChange.bootstrapSwitch', function(e, state) {
+    //console.log("what");
+    if (state) {
+      $('.non-textual').css('display', 'none');
+    } else {
+      $('.non-textual').css('display', 'block');
+    }
+  });
+
+   // add amenities dynamically
   var amenities = [
     'Pets in the house',
     'Essentials',
@@ -19,10 +30,10 @@ $(document).ready(function() {
     'Hair dryer'
   ];
 
-  $('#amenities').html(
+  $('.modal-body').html(
     '<label for="amenities">What amenities do you offer?</label>');
   amenities.forEach(function(item) {
-    $('#amenities').append(['<div class="checkbox">',
+    $('.modal-body').append(['<div class="checkbox">',
       '<label><input type="checkbox" ',
       'name="amenities" value="',
       item,
@@ -66,4 +77,7 @@ $(document).ready(function() {
     });
   });
 
+  $('.non-textual').css('display', 'none');
+
 });
+ 
