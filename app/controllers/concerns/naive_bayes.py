@@ -91,6 +91,7 @@ class NaiveBayes(object):
     # Input:
     # strObj: input String
     def predict_str(self, strObj):
+        result = {}
         test = self.parse_str(strObj)
         if self.clfDesc is None:
             temp = tempfile.TemporaryFile()
