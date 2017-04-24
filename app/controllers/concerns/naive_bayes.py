@@ -119,7 +119,19 @@ class NaiveBayes(object):
         res = np.argsort(cosSim[:, 0])[::-1]
         result = []
         for i in range(10):
-            result.append(str(self.id2listing[res[i]]))
+            similarID = str(self.id2listing[res[i]])
+            result[similarID] = getListingInfo(similarID)
+        return result
+
+    def getListingInfo(listing):
+        result = []
+        f = self.b2s.ls('data/training/'+listing+'.json')
+        textJson = self.b2s.download(f)
+        fileJson = json.loads(textJson)
+        result.append(listing)
+        result.append(fileJson['description'])
+        result.append(fileJson['name'])
+        result.append(fileJson['picture_url'])
         return result
 
     # turning an opened json file into feature vector

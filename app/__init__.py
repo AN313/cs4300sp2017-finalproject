@@ -102,7 +102,7 @@ def hostPredict():
 
     return jsonify({
         'priceClass': str(low) + " ~ " + str(high),
-        'similar': ' '.join(similar)
+        'similar': similar
     })
 
     # price = 50
