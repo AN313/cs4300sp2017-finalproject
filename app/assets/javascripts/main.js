@@ -15,7 +15,7 @@ $(document).ready(function() {
 
    // add amenities dynamically
   var amenities = [
-    'Pets in the house',
+    
     'Essentials',
     'Wifi',
     'Shampoo',
@@ -27,7 +27,14 @@ $(document).ready(function() {
     'Desk/workspace',
     'Fireplace',
     'Iron',
-    'Hair dryer'
+    'Hair dryer',
+    'Pets in the house',
+    'Smoke detector',
+    'Carbon monoxide detector',
+    'First aid kit',
+    'Safety card',
+    'Fire extinguisher'
+
   ];
 
   $('.modal-body').html(

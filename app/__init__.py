@@ -66,6 +66,12 @@ def adminDownloadJson():
     return jsonify(json.loads(res))
 
 
+@app.route("/admin/download")
+def adminDownload():
+    res = b2s.download(request.args['name'])
+    return res
+
+
 @app.route("/admin/listFiles")
 def adminListFiles():
     res = b2s.ls(request.args['pathname'])
@@ -74,12 +80,12 @@ def adminListFiles():
 
 @app.route("/host")
 def hostIndex():
-    return render_template('host.html')
+    return render_template('test.html')
 
 
 @app.route("/host/predict", methods=['POST'])
 def hostPredict():
-    similar = []
+    similar = {}
     listing = request.json
     print(listing['classifier_type'])
     if listing['classifier_type'] == "1":
@@ -96,12 +102,8 @@ def hostPredict():
 
     return jsonify({
         'priceClass': str(low) + " ~ " + str(high),
-        'similar': ' '.join(similar)
+        'similar': similar
     })
-
-    # price = 50
-    # return render_template('host.html', price = price)
-
 
 @app.route("/traveler")
 def travelerIndex():
