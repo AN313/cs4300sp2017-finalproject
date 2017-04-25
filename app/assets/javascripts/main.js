@@ -100,9 +100,70 @@ $(document).ready(function() {
         // Display result
         console.log(response);
         var price = Object.entries(response)[0][1];
+        $('p.results').text(price);
+        sim_html = '';
+        response.forEach(function(response) {
+          /*
+          var listing = document.createElement("div");
+          listing.className = 'box';
+          var listing_pic = document.createElement("div");
+          listing_pic.setAttribute('id', 'listing_pic');
+          var listing_description = document.createElement("div");
+          listing_description.setAttribute('id', 'listing_des');
+          */
+
+          // cut off last 5 characters since url contains '.json'
+          var sim_url = "http://www." + response['url'].slice(0, -5);
+          var pic_url = response['picture_url'];
+          var description = response['description'];
+          var sim_name = response['name'];
+
+          sim_html += '<div class="box">\
+            <div class="wrap"><div>\
+              <a href="' + sim_url + '"><h2>' + sim_name + '</h2></a>';
+          sim_html += '<div id="listing_des">' + description + '</div>';
+          sim_html += '<img id=listing_pic src="' + pic_url + '"></div>\
+            <div class="gradient"></div>\
+            </div>\
+            <div class="read-more"></div>\
+          </div>\
+          ';
+        });
+        document.getElementById("similar").innerHTML += sim_html;
+        var slideHeight = 160;
+        $(".box").each(function() {
+            var $this = $(this);
+            var $wrap = $this.children(".wrap");
+            var defHeight = $wrap.height() + 10;
+            if (defHeight >= slideHeight) {
+                var $readMore = $this.find(".read-more");
+                $wrap.css("height", slideHeight + "px");
+                $readMore.append("<a href='#'>Click to Read More</a>");
+                $readMore.children("a").bind("click", function(event) {
+                    var curHeight = $wrap.height();
+                    if (curHeight == slideHeight - 20) {
+                        $wrap.animate({
+                            height: defHeight
+                        }, "normal");
+                        $(this).text("Close");
+                        $wrap.children(".gradient").fadeOut();
+                    } else {
+                        $wrap.animate({
+                            height: slideHeight
+                        }, "normal");
+                        $(this).text("Click to Read More");
+                        $wrap.children(".gradient").fadeIn();
+                    }
+                    return false;
+                });
+            }
+        });
+        /*
+        var price = Object.entries(response)[0][1];
         var similar = Object.entries(response)[1][1];
         $('p.results').text(price);
         $('p.similar').text(similar);
+        */
       }
     });
   });
@@ -110,4 +171,3 @@ $(document).ready(function() {
   $('.non-textual').css('display', 'none');
 
 });
- 
