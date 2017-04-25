@@ -1,6 +1,6 @@
 # project specific
 *.ipynb
-*.pkl
+# *.pkl
 static/data/*
 .ipynb_checkpoints/
 
