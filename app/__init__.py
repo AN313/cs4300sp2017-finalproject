@@ -1,12 +1,15 @@
 from flask import Flask, request, render_template, send_from_directory, \
                   jsonify, stream_with_context, Response
 import json
-from app.controllers.concerns import naive_bayes, b2_storage, airbnb_crawler
+from app.controllers.concerns import naive_bayes, \
+                                     b2_storage, local_storage, \
+                                     airbnb_crawler
 import os
 from dotenv import load_dotenv
 import threading
 import time
 import gevent
+from celery import Celery
 
 
 dotenv_path = os.path.realpath(os.path.join(os.path.dirname(
@@ -26,10 +29,41 @@ data_dir = os.path.realpath(os.path.join(os.path.dirname(
 
 app = Flask(__name__, template_folder=view_dir)
 
-b2s = b2_storage.B2Storage(os.environ['B2_ID'], os.environ['B2_KEY'])
-b2s.renewUploadToken()
-renewT = threading.Timer(86400, b2s.renewUploadToken)
-renewT.start()
+
+# http://flask.pocoo.org/docs/0.12/patterns/celery/
+def make_celery(app):
+    celery = Celery(
+        app.import_name,
+        backend=app.config['CELERY_RESULT_BACKEND'],
+        broker=app.config['CELERY_BROKER_URL']
+    )
+    celery.conf.update(app.config)
+    TaskBase = celery.Task
+
+    class ContextTask(TaskBase):
+        abstract = True
+
+        def __call__(self, *args, **kwargs):
+            with app.app_context():
+                return TaskBase.__call__(self, *args, **kwargs)
+    celery.Task = ContextTask
+    return celery
+
+
+app.config.update(
+    CELERY_BROKER_URL='redis://localhost:6379',
+    CELERY_RESULT_BACKEND='redis://localhost:6379'
+)
+celery = make_celery(app)
+
+
+if 'production' in os.environ and os.environ['production']:
+    b2s = b2_storage.B2Storage(os.environ['B2_ID'], os.environ['B2_KEY'])
+    b2s.renewUploadToken()
+    renewT = threading.Timer(86400, b2s.renewUploadToken)
+    renewT.start()
+else:
+    b2s = local_storage.LocalStorage(['data/training', 'classifiers'])
 
 nb = naive_bayes.NaiveBayes(b2s)
 
@@ -58,15 +92,25 @@ def adminCrawl():
     return jsonify(res)
 
 
+@celery.task()
+def adminTrainDescTask():
+    nb.train_classifier_desc()
+
+
 @app.route("/admin/trainDesc")
 def adminTrainDesc():
-    nb.train_classifier_desc()
+    adminTrainDescTask.delay()
     return 'OK'
+
+
+@celery.task()
+def adminTrainListingTask():
+    nb.train_classifier_listing()
 
 
 @app.route("/admin/trainListing")
 def adminTrainListing():
-    nb.train_classifier_listing()
+    adminTrainListingTask.delay()
     return 'OK'
 
 
