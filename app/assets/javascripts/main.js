@@ -7,14 +7,14 @@ $(document).ready(function() {
 
   $("[name='classifier_type']").bootstrapSwitch();
 
-  var classifier_type = 2;
+  var classifier_type = "2";
   $("[name='classifier_type']").on('switchChange.bootstrapSwitch', function(e, state) {
     //console.log("what");
     if (state) {
-      classifier_type = 2;
+      classifier_type = "2";
       $('.non-textual').css('display', 'none');
     } else {
-      classifier_type = 1;
+      classifier_type = "1";
       $('.non-textual').css('display', 'block');
     }
 

@@ -89,8 +89,10 @@ def hostPredict():
     listing = request.json
     print(listing['classifier_type'])
     if listing['classifier_type'] == "1":
+        print ("classifier non-textual 1")
         priceClass = nb.predict_listing(listing)[0]
     elif listing['classifier_type'] == "2":
+        print ("classifier textual 2")
         priceClass = nb.predict_str(
             listing['description'] + listing['house_rules'])
         similar = nb.find_similar(
