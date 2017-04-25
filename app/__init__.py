@@ -125,6 +125,12 @@ def send_js(path):
     return send_from_directory(os.path.join(asset_dir, 'javascripts'), path)
 
 
+@app.route('/static/images/<path:path>')
+def send_img(path):
+    print(path)
+    return send_from_directory(os.path.join(asset_dir, 'images'), path)
+
+
 @app.route('/static/stylesheets/<path:path>')
 def send_css(path):
     print(path)
