@@ -101,8 +101,9 @@ $(document).ready(function() {
         console.log(response);
         var price = Object.entries(response)[0][1];
         $('p.results').text(price);
+        var similar = Object.entries(response)[1][1];
         sim_html = '';
-        response.forEach(function(response) {
+        similar.forEach(function(entry) {
           /*
           var listing = document.createElement("div");
           listing.className = 'box';
@@ -113,10 +114,10 @@ $(document).ready(function() {
           */
 
           // cut off last 5 characters since url contains '.json'
-          var sim_url = "http://www." + response['url'].slice(0, -5);
-          var pic_url = response['picture_url'];
-          var description = response['description'];
-          var sim_name = response['name'];
+          var sim_url = "http://www." + entry['url'].slice(0, -5);
+          var pic_url = entry['picture_url'];
+          var description = entry['description'];
+          var sim_name = entry['name'];
 
           sim_html += '<div class="box">\
             <div class="wrap"><div>\
