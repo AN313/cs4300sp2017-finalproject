@@ -36,7 +36,6 @@ class AirbnbCrawler(object):
         urlH = 'https://api.airbnb.com/v2/listings'
         urlT = '?client_id=3092nxybyb0otqw18e8nh5nty&_format=v1_legacy_for_p3'
 
-        print('get {}'.format(index))
         listId = self.idList[index]
         if listId in self.broken:
             return False

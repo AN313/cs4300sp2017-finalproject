@@ -1,9 +1,9 @@
 from flask import Flask, request, render_template, send_from_directory, \
-                  jsonify, stream_with_context, Response
+    jsonify, stream_with_context, Response
 import json
 from app.controllers.concerns import naive_bayes, \
-                                     b2_storage, local_storage, \
-                                     airbnb_crawler
+    b2_storage, local_storage, \
+    airbnb_crawler
 import os
 from dotenv import load_dotenv
 import threading
@@ -51,8 +51,10 @@ def make_celery(app):
 
 
 app.config.update(
-    CELERY_BROKER_URL='redis://localhost:6379',
-    CELERY_RESULT_BACKEND='redis://localhost:6379'
+    CELERY_BROKER_URL=os.environ['REDIS_URL'] if
+    'REDIS_URL' in os.environ else 'redis://localhost:6379',
+    CELERY_RESULT_BACKEND=os.environ['REDIS_URL'] if
+    'REDIS_URL' in os.environ else 'redis://localhost:6379'
 )
 celery = make_celery(app)
 
@@ -149,7 +151,6 @@ def hostIndex():
 def hostPredict():
     similar = []
     listing = request.json
-    print(listing['classifier_type'])
     if listing['classifier_type'] == "1":
         priceClass = nb.predict_listing(listing)[0]
     elif listing['classifier_type'] == "2":
@@ -187,17 +188,14 @@ def travelerPredict():
 
 @app.route('/static/javascripts/<path:path>')
 def send_js(path):
-    print(path)
     return send_from_directory(os.path.join(asset_dir, 'javascripts'), path)
 
 
 @app.route('/static/stylesheets/<path:path>')
 def send_css(path):
-    print(path)
     return send_from_directory(os.path.join(asset_dir, 'stylesheets'), path)
 
 
 @app.route('/static/fonts/<path:path>')
 def send_fonts(path):
-    print(path)
     return send_from_directory(os.path.join(asset_dir, 'fonts'), path)
