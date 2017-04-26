@@ -14,7 +14,7 @@ $(document).ready(function() {
     $('#crawl-commit').text('Running...');
     let surveyBegin = parseInt($('#crawl-begin').val(), 10);
     let surveyEnd = parseInt($('#crawl-end').val(), 10);
-    let i = surveyBegin;
+    let i = parseInt($('#crawl-resume').val(), 10);
     crawlTimer = setInterval(function() {
       crawl(surveyBegin, surveyEnd, i++);
       if (i > surveyEnd && crawlTimer) {
