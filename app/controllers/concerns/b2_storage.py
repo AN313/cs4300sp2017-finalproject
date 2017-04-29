@@ -87,3 +87,9 @@ class B2Storage(object):
         ).json()['files']
         return [fn for fn in response_data if
                 fn['fileName'].startswith(pathname)]
+
+    def dumpAndUploadRaw(self, data, filename):
+        temp = tempfile.NamedTemporaryFile()
+        joblib.dump(data, temp.name)
+        self.b2s.upload(filename, temp.read(), 'application/octet-stream')
+        return True

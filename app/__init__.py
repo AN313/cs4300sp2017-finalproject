@@ -1,7 +1,7 @@
 from flask import Flask, request, render_template, send_from_directory, \
     jsonify, stream_with_context, Response
 import json
-from app.controllers.concerns import naive_bayes, \
+from app.controllers.concerns import naive_bayes, tf_idf, \
     b2_storage, local_storage, \
     airbnb_crawler
 import os
@@ -68,6 +68,7 @@ else:
     b2s = local_storage.LocalStorage(['data/training', 'classifiers'])
 
 nb = naive_bayes.NaiveBayes(b2s)
+tfIdf = tf_idf.TfIdf(b2s)
 
 crawler = airbnb_crawler.AirbnbCrawler(
     os.path.join(data_dir, 'newyork.csv'),
@@ -92,6 +93,28 @@ def adminCrawl():
     i = int(request.args['i'], base=10)
     res = crawler.crawl(i, posBegin, posEnd, noSave=False)
     return jsonify(res)
+
+
+@celery.task()
+def adminBuildTfIdfTask():
+    tfIdf.build_tfidf()
+
+
+@app.route("/admin/buildTfIdf")
+def adminBuildTfIdf():
+    adminBuildTfIdfTask.delay()
+    return 'OK'
+
+
+@celery.task()
+def adminTrainRegressionTask():
+    tfIdf.train_regression()
+
+
+@app.route("/admin/trainRegression")
+def adminTrainRegression():
+    adminTrainRegressionTask.delay()
+    return 'OK'
 
 
 @celery.task()
