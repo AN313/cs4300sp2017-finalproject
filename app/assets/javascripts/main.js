@@ -39,10 +39,9 @@ $(document).ready(function() {
     'Fire extinguisher'
   ];
 
-  $('.modal-body').html(
-    '<label for="amenities">What amenities do you offer?</label>');
   amenities.forEach(function(item) {
-    $('.modal-body').append(['<div class="checkbox">',
+    $('#modal-sel-amenities .modal-body').append([
+      '<div class="checkbox">',
       '<label><input type="checkbox" ',
       'name="amenities" value="',
       item,
@@ -50,6 +49,25 @@ $(document).ready(function() {
       item,
       '</label></div>'
     ].join(''));
+  });
+
+  $('#sel-amenities').click(function() {
+    $('#modal-sel-amenities input[type="checkbox"]').prop('checked',
+      false);
+    $('#modal-sel-amenities').modal();
+  });
+
+  $('#modal-sel-amenities-commit').click(function() {
+    $('#amenities > div:last-child').html('');
+    $('#modal-sel-amenities input[type="checkbox"]:checked').each(
+      function() {
+        $('#amenities > div:last-child').append([
+          '<span class="label label-default">',
+          $(this).val(),
+          '</span>',
+          ' '
+        ].join(''));
+      });
   });
 
   $('#btn-predict').click(function() {
@@ -71,9 +89,8 @@ $(document).ready(function() {
       url: '/host/predict',
       type: 'post',
       data: JSON.stringify(data),
-      contentType: 'application/json',
       dataType: 'json',
-      success: function(response) {
+      success: function(t) {
         // Hide the form
         $('#row-input').hide();
         // Displayed the submitted info
@@ -81,32 +98,20 @@ $(document).ready(function() {
 
 
         // Display result
-        var type = Object.entries(response)[2][1];
-
-        if (type == '1') {
+        if (t.classifier_type === '1') {
           $('#simtitle').hide();
           $('#wordsTitle').hide();
         }
 
-        var price = Object.entries(response)[0][1];
-        var p = document.createTextNode('$' + price);
-        var h = document.createElement('h2');
-        h.appendChild(p);
-        document.getElementById('price_range').appendChild(h);
+        $('#price_range').html(['<h2>', '$', t.priceClass,
+          '</h2>'
+        ].join(''));
 
+        $('#topWords').html(['<p>', t.topWords, '</p>'].join(''));
 
-        var topWords = Object.entries(response)[3][1];
-        var words = document.createTextNode(topWords);
-        var pa = document.createElement('p');
-        pa.appendChild(words);
-        document.getElementById('topWords').appendChild(pa);
-
-
-        var similar = Object.entries(response)[1][1];
 
         var sim_html = '';
-        var i = 1;
-        similar.forEach(function(entry) {
+        t.similar.forEach(function(entry, i) {
           // cut off last 5 characters since url contains '.json'
           var sim_url = [
             'http://www.',
@@ -135,11 +140,10 @@ $(document).ready(function() {
             '<div class="read-more"></div>',
             '</div>'
           ].join('');
-          i += 1;
         });
 
 
-        document.getElementById('similar').innerHTML += sim_html;
+        $('#similar').append(sim_html);
         var slideHeight = 200;
         $('.box').each(function() {
           var $this = $(this);
@@ -152,7 +156,7 @@ $(document).ready(function() {
               '<a href="#">Click to Read More</a>');
             $readMore.children('a').bind('click', function() {
               var curHeight = $wrap.height();
-              if (curHeight == slideHeight - 20) {
+              if (curHeight === slideHeight - 20) {
                 $wrap.animate({
                   height: defHeight
                 }, 'normal');
