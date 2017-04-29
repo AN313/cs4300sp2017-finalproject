@@ -1,7 +1,7 @@
 import csv
 import json
 import requests
-
+import sys
 
 class AirbnbCrawler(object):
     # listing ids
@@ -29,7 +29,10 @@ class AirbnbCrawler(object):
                 'client_id': '3092nxybyb0otqw18e8nh5nty'
             }
         ).json()
-        self.token = response_data['access_token']
+        if 'access_token' in response_data:
+            self.token = response_data['access_token']
+        else:
+            print('Airbnb token is not acquired', file=sys.stderr)
         self.b2s = b2s
 
     def crawl(self, index, posBegin, posEnd, noSave=True, purpose='training'):
@@ -40,12 +43,18 @@ class AirbnbCrawler(object):
         if listId in self.broken:
             return False
 
+        errorMsg = ''
+
         try:
-            request = requests.get(
+            response_data = requests.get(
                 '{}/{}{}'.format(urlH, listId, urlT),
                 headers={'X-Airbnb-OAuth-Token': self.token}
             )
-            result = request.json()['listing']
+
+            if 'error_message' in response_data.json():
+                errorMsg = response_data.json()['error_message']
+
+            result = response_data.json()['listing']
             resultJson = json.dumps(
                 result,
                 sort_keys=True,
@@ -66,6 +75,7 @@ class AirbnbCrawler(object):
                 'application/json'
             )
             return result
-        except(KeyError):
+        except Exception as e:
             self.broken.add(listId)
+            print('Listing json is not acquired:', errorMsg, file=sys.stderr)
             return False
