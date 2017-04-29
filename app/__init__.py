@@ -150,26 +150,32 @@ def hostIndex():
 @app.route("/host/predict", methods=['POST'])
 def hostPredict():
     similar = []
+    topWords = ""
     listing = request.json
     if listing['classifier_type'] == "1":
-        priceClass = nb.predict_listing(listing)[0]
+        priceClass = nb.predict_listing(listing)
     elif listing['classifier_type'] == "2":
         priceClass = nb.predict_str(
             listing['description'] + listing['house_rules'])
         similar = nb.find_similar(
             listing['description'] + listing['house_rules'])
+        topWords = nb.getTopWords(
+            listing['description'] + listing['house_rules'])
+        print(topWords)
     else:
         priceClass = -1
+
     low = priceClass * 50
     high = (priceClass + 1) * 50 - 1
+    # print(similar[2]['id'])
+    print(priceClass)
 
     return jsonify({
         'priceClass': str(low) + " ~ " + str(high),
-        'similar': ' '.join(similar)
+        'similar': similar,
+        'classifier_type': listing['classifier_type'],
+        'topWords': topWords
     })
-
-    # price = 50
-    # return render_template('host.html', price = price)
 
 
 @app.route("/traveler")
@@ -189,6 +195,12 @@ def travelerPredict():
 @app.route('/static/javascripts/<path:path>')
 def send_js(path):
     return send_from_directory(os.path.join(asset_dir, 'javascripts'), path)
+
+
+@app.route('/static/images/<path:path>')
+def send_img(path):
+    print(path)
+    return send_from_directory(os.path.join(asset_dir, 'images'), path)
 
 
 @app.route('/static/stylesheets/<path:path>')
