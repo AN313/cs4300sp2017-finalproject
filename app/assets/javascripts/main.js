@@ -135,7 +135,10 @@ $(document).ready(function() {
         $(".box").each(function() {
             var $this = $(this);
             var $wrap = $this.children(".wrap");
-            var defHeight = $wrap.height() + 10;
+            var $des_height = $wrap.chilren("#listing_des").height();
+            var $pic_height = $wrap.children("#listing_pic").height();
+            var $longer = $des_height > $pic_height ? $des_height : $pic_height;
+            var defHeight = $longer + 10;
             if (defHeight >= slideHeight) {
                 var $readMore = $this.find(".read-more");
                 $wrap.css("height", slideHeight + "px");
