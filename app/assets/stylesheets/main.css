@@ -1,6 +1,9 @@
-  body {
-  padding-top: 65px; // background-color: #FFF6E6;
-  background-image: url(../images/city-background.jpg); // background-image: url(../images/airbnb.jpg);
+body {
+  background-size: cover;
+  padding-top: 65px;
+  background-image: url('/static/images/city-background.jpg');
+  background-image: url('https://static.pexels.com/photos/165888/pexels-photo-165888.jpeg');
+  min-height: 100vh;
 }
 
 .left-contain {
@@ -21,8 +24,6 @@ footer {
 }
 
 .box {
-  // border-style: solid;
-  // border-width: 1px;
   width: 100%;
   margin: auto;
   background-color: white;
@@ -57,7 +58,7 @@ footer {
 .gradient {
   width: 100%;
   height: 35px;
-  background: url(http://spoonfedproject.com/wp-content/uploads/demo/jquer-slide/images/bg-gradient.png) repeat-x;
+  background: url('http://spoonfedproject.com/wp-content/uploads/demo/jquer-slide/images/bg-gradient.png') repeat-x;
   position: absolute;
   bottom: 0;
   left: 0;
@@ -74,10 +75,11 @@ footer {
 .read-more a {
   color: #007D8C;
   padding-right: 22px;
-  background: url(http://spoonfedproject.com/wp-content/uploads/demo/jquer-slide/images/icon-arrow.gif) no-repeat 100% 50%;
+  background: url('http://spoonfedproject.com/wp-content/uploads/demo/jquer-slide/images/icon-arrow.gif') no-repeat 100% 50%;
   font-weight: 700;
   text-decoration: none;
 }
 
 .read-more a:hover {
   color: #000;
+}

@@ -129,21 +129,8 @@ class NaiveBayes(object):
         res = np.argsort(cosSim[:, 0])[::-1]
         result = []
         for i in range(10):
-            result.append(self.getListingInfo(str(id2listing[res[i]])))
+            result.append(res[i])
 
-        return result
-
-    def getListingInfo(self, listing):
-        result = {}
-        path = os.path.join(self.dataDir, listing + '.json')
-        with open(path, 'r') as f:
-            fileJson = json.load(f)
-            result.update({'description': fileJson['description']})
-            result.update({'name': fileJson['name']})
-            result.update({'picture_url': fileJson['picture_url']})
-            result.update({'url': "airbnb.com/rooms/" + listing})
-            result.update({'id': listing})
-            result.update({'price': fileJson['price']})
         return result
 
     def getTopWords(self, doc):
@@ -193,7 +180,7 @@ class NaiveBayes(object):
                     X[0, hash(k) % self.numFeat] = float(listing[k])
                 elif type(listing[k]) is list:
                     for item in listing[k]:
-                        X[0, hash(k + str(item)) % numFeat] = 1
+                        X[0, hash(k + str(item)) % self.numFeat] = 1
                 else:
                     continue
             else:

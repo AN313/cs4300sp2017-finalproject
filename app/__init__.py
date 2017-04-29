@@ -8,7 +8,6 @@ import os
 from dotenv import load_dotenv
 import threading
 import time
-import gevent
 from celery import Celery
 
 
@@ -139,6 +138,12 @@ def adminDownload():
 @app.route("/admin/listFiles")
 def adminListFiles():
     res = b2s.ls(request.args['pathname'])
+    return jsonify(res)
+
+
+@app.route("/api/listing")
+def apiListingIndex():
+    res = crawler.crawl(i, noSave=True)
     return jsonify(res)
 
 
