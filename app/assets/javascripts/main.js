@@ -48,23 +48,25 @@ $(document).ready(function() {
     '<label for="amenities">What amenities do you offer?</label>');
     amenities.forEach(function(item) {
       $('.modal-body').append(['<div class="checkbox">',
-        '<label><input type="checkbox" ',
+        '<input type="checkbox" ',
         'name="amenities" value="',
         item,
         '">',
         item,
-        '</label></div>'
+        '</div>'
       ].join(''));
       console.log("in amenitiy appending");
     });
 
   $('#btn-predict').click(function() {
     var selected = [];
-    $('.checkbox input:checked').each(function() {
-      // console.log($(this));
-      console.log("in checkbox");
-      // console.log($(this).attr('value'));
-      selected.push($(this).attr('value'));
+    $('.checkbox').each(function() {
+      if ($(this).checked) {
+        // console.log($(this));
+        console.log("in checkbox");
+        // console.log($(this).attr('value'));
+        selected.push($(this).attr('value'));
+      }
     });
 
     console.log(selected);
