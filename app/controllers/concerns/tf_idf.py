@@ -2,8 +2,10 @@ import numpy as np
 import json
 from sklearn.linear_model import LogisticRegression
 from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.externals import joblib
 import tempfile
 import string
+from nltk import word_tokenize
 
 
 class TfIdf(object):
@@ -38,7 +40,7 @@ class TfIdf(object):
     def build_tfidf(self):
         docRaw = []
         files = self.b2s.ls('data/training')
-        Y = np.zeros(len(files))
+        self.priceVec = np.zeros(len(files))
         for i, file in enumerate(files):
             f = file['fileName']
             # read json into dict
@@ -49,7 +51,7 @@ class TfIdf(object):
             raw = listing['description'] + ' ' + listing['name']
             docRaw.append(raw.translate(str.maketrans(
                 {key: None for key in string.punctuation})))
-            Y[i] = min(int(listing['price'] / 50), 10)
+            self.priceVec[i] = min(int(listing['price'] / 50), 10)
         self.tfidf = TfidfVectorizer(
             stop_words='english', max_df=0.7, min_df=5, norm='l2', tokenizer=word_tokenize)
         self.docVec = self.tfidf.fit_transform(docRaw)
@@ -59,10 +61,10 @@ class TfIdf(object):
             self.word2Ind[v] = i
             self.ind2Word[i] = v
 
-        b2s.dumpAndUploadRaw(self.priceVec, 'self.priceVec.pkl')
-        b2s.dumpAndUploadRaw(self.docVec, 'self.docVec.pkl')
-        b2s.dumpAndUploadRaw(self.tfidf, 'self.tfidf.pkl')
-        b2s.dumpAndUploadRaw(self.word2Ind, 'self.word2Ind.pkl')
-        b2s.dumpAndUploadRaw(self.ind2Word, 'self.ind2Word.pkl')
+        self.b2s.dumpAndUploadRaw(self.priceVec, 'classifiers/priceVec.pkl')
+        self.b2s.dumpAndUploadRaw(self.docVec, 'classifiers/docVec.pkl')
+        self.b2s.dumpAndUploadRaw(self.tfidf, 'classifiers/tfidf.pkl')
+        self.b2s.dumpAndUploadRaw(self.word2Ind, 'classifiers/word2Ind.pkl')
+        self.b2s.dumpAndUploadRaw(self.ind2Word, 'classifiers/ind2Word.pkl')
 
         return True

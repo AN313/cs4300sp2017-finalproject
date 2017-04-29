@@ -3,6 +3,8 @@ import json
 import requests
 import os
 import hashlib
+import tempfile
+from sklearn.externals import joblib
 
 
 class B2Storage(object):
@@ -91,5 +93,5 @@ class B2Storage(object):
     def dumpAndUploadRaw(self, data, filename):
         temp = tempfile.NamedTemporaryFile()
         joblib.dump(data, temp.name)
-        self.b2s.upload(filename, temp.read(), 'application/octet-stream')
+        self.upload(filename, temp.read(), 'application/octet-stream')
         return True
