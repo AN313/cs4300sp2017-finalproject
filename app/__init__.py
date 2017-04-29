@@ -142,6 +142,12 @@ def adminListFiles():
     return jsonify(res)
 
 
+@app.route("/api/listing")
+def apiListingIndex():
+    res = crawler.crawl(i, noSave=True)
+    return jsonify(res)
+
+
 @app.route("/host")
 def hostIndex():
     return render_template('host.html')

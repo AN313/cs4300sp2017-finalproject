@@ -29,7 +29,9 @@ class AirbnbCrawler(object):
                 'client_id': '3092nxybyb0otqw18e8nh5nty'
             }
         ).json()
-        self.token = response_data['access_token']
+        if 'access_token' in response_data:
+            self.token = response_data['access_token']
+
         self.b2s = b2s
 
     def crawl(self, index, posBegin, posEnd, noSave=True, purpose='training'):
