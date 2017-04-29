@@ -30,6 +30,44 @@ The app has the following endpoints. Either access them in a web browser, or for
 
 - Admin homepage
 
+`/admin/crawl`
+
+- Crawl listing `i`'s JSON as part of a survey [`begin`, `end`] and upload to cloud storage.
+- method: `GET`
+- in: query string
+- format: `begin: Number, end: Number, i: Number`
+
+`/admin/trainDesc`
+
+- Train classifier based on training data.
+- method: `GET`
+
+`/admin/trainListing`
+
+- Train classifier based on training data.
+- method: `GET`
+
+`/admin/uploadJson`
+
+- Upload a JSON file to cloud Storage. File must be sent serialized.
+- method: `POST`
+- in: `application/json`
+- format: `{"name": String, "data": String}`
+
+`/admin/downloadJson`
+
+- Get a JSON file from cloud Storage. File arrives deserialized.
+- method: `GET`
+- in: query string
+- format: `name: String`
+
+`/admin/listFiles`
+
+- Get an array of files starting with a prefix.
+- method: `GET`
+- in: query string
+- format: `pathname: String`
+
 `/host`
 
 - Host homepage
@@ -48,7 +86,7 @@ The app has the following endpoints. Either access them in a web browser, or for
 `/traveler/predict`
 
 - Traveler price prediction
-- method: `POST`
+- method: `GET`
 - in: query string
 - format: `url: String`
 
