@@ -30,6 +30,13 @@ The app has the following endpoints. Either access them in a web browser, or for
 
 - Admin homepage
 
+`/admin/crawl`
+
+- Crawl listing `i`'s JSON as part of a survey [`begin`, `end`] and upload to cloud storage.
+- method: `GET`
+- in: query string
+- format: `begin: Number, end: Number, i: Number`
+
 `/admin/trainDesc`
 
 - Train classifier based on training data.

@@ -1,8 +1,11 @@
 import numpy as np
 from sklearn.naive_bayes import GaussianNB, MultinomialNB
+from sklearn.linear_model import LogisticRegression
 from sklearn.externals import joblib
+from sklearn.feature_extraction.text import TfidfVectorizer
 import os
 import json
+import string
 from nltk import word_tokenize
 import tempfile
 
@@ -44,7 +47,7 @@ class NaiveBayes(object):
             textJson = self.b2s.download(f)
             listing = json.loads(textJson)
             X[i] = self.bundle_json_obj(listing)
-            Y[i] = int(listing['price'] / 50)
+            Y[i] = max(int(listing['price'] / 50), 10)
         self.clfListing.fit(X, Y)
         temp = tempfile.NamedTemporaryFile()
         joblib.dump(self.clfListing, temp.name)
@@ -69,7 +72,7 @@ class NaiveBayes(object):
                                   listing['description'],
                                   listing['name'],
                                   listing['house_rules']))
-            Y[i] = int(listing['price'] / 50)
+            Y[i] = max(int(listing['price'] / 50), 10)
         self.clfDesc.fit(X, Y)
         temp = tempfile.NamedTemporaryFile()
         joblib.dump(self.clfDesc, temp.name)
@@ -86,53 +89,83 @@ class NaiveBayes(object):
             temp.write(self.b2s.downloadRaw(
                        'classifiers/nb_listing.pkl'))
             self.clfListing = joblib.load(temp)
-        return self.clfListing.predict(test)
+        return self.clfListing.predict(test)[0]
 
     # Input:
     # strObj: input String
     def predict_str(self, strObj):
-        result = {}
-        test = self.parse_str(strObj)
-        if self.clfDesc is None:
+        test = self.doc2idf(strObj)
+        if self.clfLinReg is None:
             temp = tempfile.TemporaryFile()
             temp.write(bytearray(self.b2s.downloadRaw(
-                       'classifiers/nb_str.pkl')))
-            self.clfDesc = joblib.load(temp)
-        return self.clfDesc.predict(test)
+                       'classifiers/lr_listing.pkl')))
+            self.clfLinReg = joblib.load(temp)
+        return self.clfLinReg.predict(test)[0]
+
+    def doc2idf(self, doc):
+        if self.tfIdfVec is None:
+            temp = tempfile.TemporaryFile()
+            temp.write(bytearray(self.b2s.downloadRaw(
+                       'classifiers/tfidf.pkl')))
+            self.tfIdfVec = joblib.load(temp)
+        return self.tfIdfVec.transform([doc]).toarray()
 
     def find_similar(self, strObj):
-        test = self.parse_str(strObj)
+        test = self.doc2idf(strObj)
 
-        if self.trainingVec is None:
+        if self.docVec is None:
             temp = tempfile.TemporaryFile()
             temp.write(self.b2s.downloadRaw(
-                       'classifiers/listing_vecs.pkl'))
-            self.trainingVec = joblib.load(temp)
+                       'classifiers/docVec.pkl'))
+            self.docVec = joblib.load(temp)
 
         if self.id2listing is None:
             temp = tempfile.TemporaryFile()
             temp.write(bytearray(self.b2s.downloadRaw(
-                       'classifiers/listing_vecs.pkl')))
+                       'classifiers/id2listing.pkl')))
             self.id2listing = joblib.load(temp)
 
-        cosSim = self.trainingVec.dot(test.reshape((-1, 1)))
+        cosSim = self.docVec.toarray().dot(test.reshape((-1, 1)))
         res = np.argsort(cosSim[:, 0])[::-1]
         result = []
         for i in range(10):
-            similarID = str(self.id2listing[res[i]])
-            result[similarID] = getListingInfo(similarID)
+            result.append(self.getListingInfo(str(id2listing[res[i]])))
+
         return result
 
-    def getListingInfo(listing):
-        result = []
-        f = self.b2s.ls('data/training/'+listing+'.json')
-        textJson = self.b2s.download(f)
-        fileJson = json.loads(textJson)
-        result.append(listing)
-        result.append(fileJson['description'])
-        result.append(fileJson['name'])
-        result.append(fileJson['picture_url'])
+    def getListingInfo(self, listing):
+        result = {}
+        path = os.path.join(self.dataDir, listing + '.json')
+        with open(path, 'r') as f:
+            fileJson = json.load(f)
+            result.update({'description': fileJson['description']})
+            result.update({'name': fileJson['name']})
+            result.update({'picture_url': fileJson['picture_url']})
+            result.update({'url': "airbnb.com/rooms/" + listing})
+            result.update({'id': listing})
+            result.update({'price': fileJson['price']})
         return result
+
+    def getTopWords(self, doc):
+        testVec = self.doc2idf(doc)
+        i2w = joblib.load(os.path.join(
+            self.assetsDir, 'classifiers', 'ind2Word.pkl'))
+        logReg = joblib.load(os.path.join(
+            self.assetsDir, 'classifiers', 'lr_listing.pkl'))
+        rank = logReg.predict(testVec)
+
+        coef = logReg.coef_[int(rank[0])]
+        product = coef * testVec.reshape(-1)
+        result = np.argsort(product)[::-1]
+        topWords = ""
+        for i in range(10):
+            topWords += i2w[result[i]] + '     '
+            topWords += str(product[result[i]]) + '\n'
+        result = result[::-1]
+        for i in range(10):
+            topWords += i2w[result[i]] + '     '
+            topWords += str(product[result[i]]) + '\n'
+        return topWords
 
     # turning an opened json file into feature vector
     def bundle_json_file(self, f):
@@ -154,11 +187,13 @@ class NaiveBayes(object):
         # adding features
         for k in self.FEAT:
             if k in listing:
-
                 if type(listing[k]) is str:
                     X[0, hash(k) % self.numFeat] = 1
                 elif type(listing[k]) is int or type(listing[k]) is float:
                     X[0, hash(k) % self.numFeat] = float(listing[k])
+                elif type(listing[k]) is list:
+                    for item in listing[k]:
+                        X[0, hash(k + str(item)) % numFeat] = 1
                 else:
                     continue
             else:

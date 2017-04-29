@@ -1,177 +1,248 @@
 <!doctype html>
 <html>
 
-  <head>
-    <title>Example Domain</title>
+<head>
+  <title>Airbnb Price Suggestion</title>
 
-    <meta charset="utf-8"/>
-    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta charset="utf-8"/>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-    <link rel="stylesheet" href="static/stylesheets/bootstrap.min.css">
+  <link rel="stylesheet" href="static/stylesheets/bootstrap.min.css">
 
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="static/stylesheets/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="static/stylesheets/main.css">
-  </head>
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="static/stylesheets/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="static/stylesheets/main.css">
+  <link rel="stylesheet" href="static/stylesheets/bootstrap-switch.css">
+</head>
 
-  <body>
+<body>
 
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-      <div class="container">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">APS</a>
-        </div>
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-          <ul class="nav navbar-nav">
+  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">APS</a>
+      </div>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
             <!--           <li>
                         <a href="#">Home</a>
-                    </li> -->
-            <li class="active">
-              <a href="host">Host</a>
-            </li>
-            <li>
-              <a href="#">Traveler</a>
-            </li>
-          </ul>
-        </div>
-        <!-- /.navbar-collapse -->
-      </div>
-      <!-- /.container -->
-    </nav>
+                      </li> -->
+                      <li class="active">
+                        <a href="host">Host</a>
+                      </li>
+                      <li>
+                        <a href="#">Traveler</a>
+                      </li>
+                    </ul>
+                  </div>
+                  <!-- /.navbar-collapse -->
+                </div>
+                <!-- /.container -->
+              </nav>
 
     <!-- <header class="image-bg-fluid-height">
         <img class="img-responsive img-center" src="http://placehold.it/200x200&text=Logo" alt="">
-</header> -->
-    <aside class="image-bg-fixed-height"></aside>
-    <section>
-      <div class="container">
-        <div id="row-input" class="row">
-          <div class="col-lg-12">
-            <h1 class="section-heading">Listing Price Suggestion</h1>
-            <p class="lead section-lead">Please complete the form below.</p>
+      </header> -->
+      <aside class="image-bg-fixed-height"></aside>
+      <section>
+        <div class="container">
+          <div id="row-input" class="row">
+            <div class="col-lg-12">
 
-            <!--      <p class="section-paragraph"></p> -->
+              <h1 class="section-heading">Listing Price Suggestion</h1>
+              <p class="lead section-lead">Please complete the form below.</p>
 
-            <form action="javascript:void(0)" method="post">
 
-              <div class="form-group">
-                <label for="sel1">What type of property is this?</label>
-                <select class="form-control" id="sel1" name='property_type'>
-                  <option value="" disabled selected>Select your option</option>
-                  <option value="Apartment">Apartment</option>
-                  <option value="House">House</option>
-                  <option value="Condominium">Condominium</option>
-                </select>
-              </div>
+              <!-- FORM -->
 
-              <div class="form-group">
-                <label for="sel1">What will guests have?</label>
-                <select class="form-control" id="sel1" name='room_type'>
-                  <option value="" disabled selected>Select your option</option>
-                  <option value="Entire home/apt">Entire place</option>
-                  <option value="Private room">Private room</option>
-                  <option value="Shared room">Shared room</option>
-                </select>
-              </div>
+              <form action="javascript:void(0)" method="post">
+                 <!-- toggle classifier -->
+                 <div class="form-group">
+                    <label for="sel1">Use text description only:   </label>
+                    <input type="checkbox" name="classifier_type" value=1 checked>
+                </div>
 
-              <div class="form-group">
-                <label for="sel1">How many guests can your place accommodate?</label>
-                <input class="form-control" type="number" name="person_capacity" min="1" max="16">
-              </div>
+                <!-- non-textual features -->
+                <div class="non-textual">
 
-              <div class="form-group">
-                <label for="sel1">How many bedrooms can guests use?</label>
-                <select class="form-control" id="sel1" name="bedrooms">
-                  <option value="" disabled selected>Select your option</option>
-                  <option value=0>0</option>
-                  <option value=1>1</option>
-                  <option value=2>2</option>
-                  <option value=3>3</option>
-                  <option value=4>4</option>
-                  <option value=5>5</option>
-                  <option value=6>6</option>
-                  <option value=7>7</option>
-                  <option value=8>8</option>
-                  <option value=9>9</option>
-                  <option value=10>10</option>
-                </select>
-              </div>
+                  <div class="left-contain">
 
-              <div class="form-group">
-                <label for="sel1">How many beds can guests use?</label>
-                <input class="form-control" type="number" name="beds" min="1" max="16">
-              </div>
+                    <div class="form-group">
+                      <label for="sel1">What type of property is this?</label>
+                      <select class="form-control" id="sel1" name='property_type'>
+                        <option value="Apartment" selected>Apartment</option>
+                        <option value="House">House</option>
+                        <option value="Condominium">Condominium</option>
+                      </select>
+                    </div>
 
-              <div class="form-group">
-                <label for="sel1">How many bathrooms?</label>
-                <input class="form-control" type="number" name="bathrooms" min="0" max="8">
-              </div>
+                    <div class="form-group">
+                      <label for="sel1">What will guests have?</label>
+                      <select class="form-control" id="sel1" name='room_type'>
+                        <option value="Entire home/apt" selected>Entire place</option>
+                        <option value="Private room">Private room</option>
+                        <option value="Shared room">Shared room</option>
+                      </select>
+                    </div>
 
-              <div id="amenities" class="form-group"></div>
+                    <div class="form-group">
+                      <label for="sel1">How many guests can your place accommodate?</label>
+                      <select class="form-control" id="sel1" name="person_capacity">
+                        <option value=1 selected>1</option>
+                        <option value=2>2</option>
+                        <option value=3>3</option>
+                        <option value=4>4</option>
+                        <option value=5>5</option>
+                        <option value=6>6</option>
+                        <option value=7>7</option>
+                        <option value=8>8</option>
+                        <option value=9>9</option>
+                        <option value=10>10</option>
+                      </select>
+                    </div>
 
-              <!-- change to detailed form later -->
-              <div class="form-group">
-                <label for="address">Address</label>
-                <textarea class="form-control" rows="5" name="address">New York, NY, United States</textarea>
-              </div>
+                  </div>
 
-              <div class="form-group">
-                <label for="house_rules">House Rules</label>
-                <textarea class="form-control" rows="5" name="house_rules"></textarea>
-              </div>
+                  <div class="right-contain">
 
-              <div class="form-group">
-                <label for="description">Short description</label>
-                <textarea class="form-control" rows="5" name="description"></textarea>
-              </div>
+                    <div class="form-group">
+                      <label for="sel1">How many bedrooms can guests use?</label>
+                      <select class="form-control" id="sel1" name="bedrooms">
+                        <option value=0>0</option>
+                        <option value=1 selected>1</option>
+                        <option value=2>2</option>
+                        <option value=3>3</option>
+                        <option value=4>4</option>
+                        <option value=5>5</option>
+                        <option value=6>6</option>
+                        <option value=7>7</option>
+                        <option value=8>8</option>
+                        <option value=9>9</option>
+                        <option value=10>10</option>
+                      </select>
+                    </div>
 
-              <div class="form-group">
-                <label for="sel1">Classifier type:</label>
-                <select class="form-control" id="sel1" name='classifier_type'>
-                  <option value=1>non-textual features</option>
-                  <option value=2>textual features</option>
-                  <option value=3 disabled>Combined</option>
-                </select>
-              </div>
+                    <div class="form-group">
+                      <label for="sel1">How many beds can guests use?</label>
+                      <select class="form-control" id="sel1" name="beds">
+                        <option value=0>0</option>
+                        <option value=1 selected>1</option>
+                        <option value=2>2</option>
+                        <option value=3>3</option>
+                        <option value=4>4</option>
+                        <option value=5>5</option>
+                        <option value=6>6</option>
+                        <option value=7>7</option>
+                        <option value=8>8</option>
+                        <option value=9>9</option>
+                        <option value=10>10</option>
+                      </select>
+                    </div>
 
-              <button type="submit" id="btn-predict" class="btn btn-default">Submit</button>
-            </form>
+                    <div class="form-group">
+                      <label for="sel1">How many bathrooms?</label>
+                      <select class="form-control" id="sel1" name="bathrooms">
+                        <option value=0>0</option>
+                        <option value=1 selected>1</option>
+                        <option value=2>2</option>
+                        <option value=3>3</option>
+                        <option value=4>4</option>
+                        <option value=5>5</option>
+                        <option value=6>6</option>
+                        <option value=7>7</option>
+                        <option value=8>8</option>
+                        <option value=9>9</option>
+                        <option value=10>10</option>
+                      </select>
+                    </div>
+
+                  </div>
+                  <!-- amenitiy checkboxes -->
+                  <div id="amenities" class="form-group">
+                    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+                      Select Amenities
+                    </button>
+                  </div>
+
+                  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                          <h4 class="modal-title" id="myModalLabel">Available Amenities</h4>
+                        </div>
+                        <div class="modal-body">
+                          <!-- filled in main.js -->
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- change to detailed form later -->
+                  <div class="form-group">
+                    <label for="address">Address</label>
+                    <textarea class="form-control" rows="1" name="address">New York, NY, United States</textarea>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="house_rules">House Rules</label>
+                    <textarea class="form-control" rows="5" name="house_rules"></textarea>
+                  </div>
+
+                </div>
+
+                <div class="form-group">
+                  <label for="description">Short description</label>
+                  <textarea class="form-control" rows="5" name="description"></textarea>
+                </div>
+
+                <button type="submit" id="btn-predict" class="btn btn-default">Submit</button>
+              </form>
+            </div>
           </div>
-        </div>
-        <!-- /.row -->
-        <div id="row-prediction" class="row">
-          <h1 class="section-heading">Listing Price Prediction</h1>
-          <div class="col-lg-12">
-            <h2>JSON:
-            </h2>
-            <p class="json"></p>
+          <!-- /.row -->
+          <div id="row-prediction" class="row">
+            <h1 class="section-heading">Listing Price Prediction</h1>
+            <div class="col-lg-12">
+              <p class="json"></p>
 
-            <h2>Result:
-            </h2>
-            <h3>price range</h3>
-            <p class="results"></p>
-            <h3>similar listing ID</h3>
-            <p class="similar"></p>
+              <h3>Predicted price range:</h3>
+              <!-- <p class="results"></p> -->
+              <div id = "price_range"></div>
+
+              <h3 id="wordsTitle">Influential words:</h3>
+              <div id = "topWords"></div>
+
+              <h3 id = "simtitle">Similar listings:</h3>
+              <div id="similar"></div>
+            </div>
           </div>
+          <!-- /.row -->
         </div>
-        <!-- /.row -->
-      </div>
-      <!-- /.container -->
-    </section>
+        <!-- /.container -->
+      </section>
 
-    <script src="static/javascripts/lodash.min.js"></script>
-    <script src="static/javascripts/jquery-3.2.1.min.js"></script>
-    <script src="static/javascripts/bootstrap.min.js"></script>
-    <script type="text/javascript" src="static/javascripts/main.js"></script>
-  </body>
+      <footer>
+        <p><i>Created by: Naxin Chen, Yiwei Ni, Ke Qian, Jim Yu</i></p>
+      </footer>
 
+      <script src="static/javascripts/lodash.min.js"></script>
+      <script src="static/javascripts/jquery-3.2.1.min.js"></script>
+      <script src="static/javascripts/bootstrap.min.js"></script>
+      <script src="static/javascripts/bootstrap-switch.js"></script>
+      <script src="static/javascripts/bootstrap-switch.min.js"></script>
+      <script type="text/javascript" src="static/javascripts/main.js"></script>
+    </body>
 </html>
