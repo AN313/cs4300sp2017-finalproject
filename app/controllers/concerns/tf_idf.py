@@ -23,7 +23,7 @@ class TfIdf(object):
 
     # traing logistic regression on self.tfidf vector
     # There's also a price vector that's outputed during self.tfidf building
-    def train_regression(self):
+    def train_regression(self, begin, end):
         if self.priceVec is None or self.docVec is None:
             self.build_tfidf()
 
@@ -37,11 +37,11 @@ class TfIdf(object):
 
     # build TFIDF and word/index translation
     # WATCH OUT the docRaw size, might explode on heroku
-    def build_tfidf(self):
+    def build_tfidf(self, begin, end):
         docRaw = []
         files = self.b2s.ls('data/training')
         self.priceVec = np.zeros(len(files))
-        for i, file in enumerate(files):
+        for i, file in enumerate(files[begin:end+1]):
             f = file['fileName']
             # read json into dict
             if not f.endswith('.json'):

@@ -34,12 +34,12 @@ class NaiveBayes(object):
         self.b2s = b2s
 
     # trains a naive bayes classifier on listings in /data/sensei
-    def train_classifier_listing(self):
+    def train_classifier_listing(self, begin, end):
         self.clfListing = GaussianNB()
         files = self.b2s.ls('data/training')
         X = np.zeros((len(files), self.numFeat))
         Y = np.zeros(len(files))
-        for i, file in enumerate(files):
+        for i, file in enumerate(files[begin:end+1])
             f = file['fileName']
             # read json into feature vector
             if not f.endswith('.json'):
@@ -56,12 +56,12 @@ class NaiveBayes(object):
         return self.clfListing.score(X, Y)
 
     # train a classifier on description
-    def train_classifier_desc(self):
+    def train_classifier_desc(self, begin, end):
         self.clfDesc = MultinomialNB()
         files = self.b2s.ls('data/training')
         X = np.zeros((len(files), self.strFeat))
         Y = np.zeros(len(files))
-        for i, file in enumerate(files):
+        for i, file in enumerate(files[begin:end+1]):
             f = file['fileName']
             # read json into dict
             if not f.endswith('.json'):
