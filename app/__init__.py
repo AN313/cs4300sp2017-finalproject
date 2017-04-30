@@ -116,8 +116,8 @@ def adminTrainListingTask(begin, end):
 
 @app.route("/admin/train")
 def adminTrain():
-    posBegin = int(request.args['begin'], base=10)
-    posEnd = int(request.args['end'], base=10)
+    begin = int(request.args['begin'], base=10)
+    end = int(request.args['end'], base=10)
     funcName = request.args['f']
 
     if funcName == 'buildTfIdf':

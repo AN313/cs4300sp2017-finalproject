@@ -8,6 +8,7 @@ The goal of our project is to build a query system that helps the hosts to decid
 ### Run locally
 
 - Install Python 3, conda is sufficient
+- Install Redis, keep running & no credentials required
 - In terminal, run `cd [project_dir]`
 - Run `pip install -r requirements.txt`
 - Run `gunicorn server:app`

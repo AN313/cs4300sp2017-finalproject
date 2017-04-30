@@ -39,7 +39,7 @@ class NaiveBayes(object):
         files = self.b2s.ls('data/training')
         X = np.zeros((len(files), self.numFeat))
         Y = np.zeros(len(files))
-        for i, file in enumerate(files[begin:end+1])
+        for i, file in enumerate(files[begin:end+1]):
             f = file['fileName']
             # read json into feature vector
             if not f.endswith('.json'):
