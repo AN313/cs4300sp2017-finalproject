@@ -95,47 +95,44 @@ def adminCrawl():
 
 
 @celery.task()
-def adminBuildTfIdfTask():
-    tfIdf.build_tfidf()
-
-
-@app.route("/admin/buildTfIdf")
-def adminBuildTfIdf():
-    adminBuildTfIdfTask.delay()
-    return 'OK'
+def adminBuildTfIdfTask(begin, end):
+    tfIdf.build_tfidf(begin, end)
 
 
 @celery.task()
-def adminTrainRegressionTask():
-    tfIdf.train_regression()
-
-
-@app.route("/admin/trainRegression")
-def adminTrainRegression():
-    adminTrainRegressionTask.delay()
-    return 'OK'
+def adminTrainRegressionTask(begin, end):
+    tfIdf.train_regression(begin, end)
 
 
 @celery.task()
-def adminTrainDescTask():
-    nb.train_classifier_desc()
-
-
-@app.route("/admin/trainDesc")
-def adminTrainDesc():
-    adminTrainDescTask.delay()
-    return 'OK'
+def adminTrainDescTask(begin, end):
+    nb.train_classifier_desc(begin, end)
 
 
 @celery.task()
-def adminTrainListingTask():
-    nb.train_classifier_listing()
+def adminTrainListingTask(begin, end):
+    nb.train_classifier_listing(begin, end)
 
 
-@app.route("/admin/trainListing")
-def adminTrainListing():
-    adminTrainListingTask.delay()
-    return 'OK'
+@app.route("/admin/train")
+def adminTrain():
+    posBegin = int(request.args['begin'], base=10)
+    posEnd = int(request.args['end'], base=10)
+    funcName = request.args['f']
+
+    if funcName == 'buildTfIdf':
+        adminBuildTfIdfTask.delay(begin, end)
+        return 'OK'
+    elif funcName == 'trainRegression':
+        adminTrainRegressionTask.delay(begin, end)
+        return 'OK'
+    elif funcName == 'trainDesc':
+        adminTrainDescTask.delay(begin, end)
+        return 'OK'
+    elif funcName == 'trainListing':
+        adminTrainListingTask.delay(begin, end)
+        return 'OK'
+    return False
 
 
 @app.route("/admin/uploadJson", methods=['POST'])
