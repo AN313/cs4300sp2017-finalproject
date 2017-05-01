@@ -1,8 +1,9 @@
 body {
+  background-size: cover;
   padding-top: 65px;
-  // background-color: #FFF6E6;
-  background-image: url(../images/city-background.jpg);
-  // background-image: url(../images/airbnb.jpg);
+  background-image: url('/static/images/city-background.jpg');
+  background-image: url('https://static.pexels.com/photos/165888/pexels-photo-165888.jpeg');
+  min-height: 100vh;
 }
 
 .left-contain {
@@ -10,7 +11,7 @@ body {
   float: left;
 }
 
-.right-contain{
+.right-contain {
   width: 50%;
   float: right;
 }
@@ -22,12 +23,7 @@ footer {
   padding-bottom: 5px;
 }
 
-
-
-
 .box {
-  // border-style: solid;
-  // border-width: 1px;
   width: 100%;
   margin: auto;
   background-color: white;
@@ -39,8 +35,8 @@ footer {
 }
 
 .box h3 {
-	width: 70%;
-  color:#007D8C;
+  width: 70%;
+  color: #007D8C;
 }
 
 .box #listing_des {
@@ -54,36 +50,36 @@ footer {
 }
 
 .wrap {
-    position:relative;
-    overflow:hidden;
-    padding:10px;
+  position: relative;
+  overflow: hidden;
+  padding: 10px;
 }
 
 .gradient {
-    width:100%;
-    height:35px;
-    background:url(http://spoonfedproject.com/wp-content/uploads/demo/jquer-slide/images/bg-gradient.png) repeat-x;
-    position:absolute;
-    bottom:0;
-    left:0;
+  width: 100%;
+  height: 35px;
+  background: url('http://spoonfedproject.com/wp-content/uploads/demo/jquer-slide/images/bg-gradient.png') repeat-x;
+  position: absolute;
+  bottom: 0;
+  left: 0;
 }
 
 .read-more {
-    border-top:4px #ddd;
-    background:#fff;
-    color:#333;
-    padding:5px;
-    border-radius: 0 0 8px 8px;
+  border-top: 4px #ddd;
+  background: #fff;
+  color: #333;
+  padding: 5px;
+  border-radius: 0 0 8px 8px;
 }
 
 .read-more a {
-  color:#007D8C;
-    padding-right:22px;
-    background:url(http://spoonfedproject.com/wp-content/uploads/demo/jquer-slide/images/icon-arrow.gif) no-repeat 100% 50%;
-    font-weight:700;
-    text-decoration:none;
+  color: #007D8C;
+  padding-right: 22px;
+  background: url('http://spoonfedproject.com/wp-content/uploads/demo/jquer-slide/images/icon-arrow.gif') no-repeat 100% 50%;
+  font-weight: 700;
+  text-decoration: none;
 }
 
 .read-more a:hover {
-    color:#000;
+  color: #000;
 }
