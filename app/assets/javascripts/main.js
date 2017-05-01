@@ -129,14 +129,6 @@ $(document).ready(function() {
         sim_html = '';
         i = 1;
         similar.forEach(function(entry) {
-          /*
-          var listing = document.createElement("div");
-          listing.className = 'box';
-          var listing_pic = document.createElement("div");
-          listing_pic.setAttribute('id', 'listing_pic');
-          var listing_description = document.createElement("div");
-          listing_description.setAttribute('id', 'listing_des');
-          */
 
           // cut off last 5 characters since url contains '.json'
           var sim_url = "http://www." + entry['url'].slice(0, -5);

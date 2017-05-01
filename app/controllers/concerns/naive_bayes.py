@@ -166,7 +166,7 @@ class NaiveBayes(object):
                     X[0, hash(k) % self.numFeat] = float(listing[k])
                 elif type(listing[k]) is list:
                     for item in listing[k]:
-                        X[0,hash(k+str(item)) % numFeat] = 1
+                        X[0,hash(k+str(item)) % self.numFeat] = 1
                 else:
                     continue
             else:
