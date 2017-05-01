@@ -25,7 +25,7 @@ class TfIdf(object):
     # There's also a price vector that's outputed during self.tfidf building
     def train_regression(self, begin, end):
         if self.priceVec is None or self.docVec is None:
-            self.build_tfidf()
+            self.build_tfidf(begin,end)
 
         self.logReg = LogisticRegression()
         self.logReg.fit(self.docVec, self.priceVec)
