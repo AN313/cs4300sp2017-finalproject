@@ -42,7 +42,7 @@ $(document).ready(function() {
       i+=1;
     });
 
-
+    
 
 
     document.getElementById("similar").innerHTML += sim_html;
@@ -58,7 +58,7 @@ $(document).ready(function() {
         if (defHeight >= slideHeight) {
             var $readMore = $this.find(".read-more");
             $wrap.css("height", slideHeight + "px");
-
+            
             $readMore.append("<a href='#'>Click to Read More</a>");
             $readMore.children("a").bind("click", function(event) {
                 var curHeight = $wrap.height();
