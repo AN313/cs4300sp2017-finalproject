@@ -30,9 +30,7 @@ class TfIdf(object):
         self.logReg = LogisticRegression()
         self.logReg.fit(self.docVec, self.priceVec)
         temp = tempfile.NamedTemporaryFile()
-        joblib.dump(self.logReg, temp.name)
-        self.b2s.upload('classifiers/lr_listing.pkl',
-                        temp.read(), 'application/octet-stream')
+        self.b2s.dumpAndUploadRaw(self.logReg, 'classifiers/lr_listing.pkl')
         return self.logReg.score(self.docVec, self.priceVec)
 
     # build TFIDF and word/index translation
