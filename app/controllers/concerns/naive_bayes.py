@@ -126,19 +126,39 @@ class NaiveBayes(object):
         logReg = joblib.load(os.path.join(
             self.assetsDir, 'classifiers', 'lr_listing.pkl'))
         rank = logReg.predict(testVec)
-       
+
         coef = logReg.coef_[int(rank[0])]
         product = coef*testVec.reshape(-1)
         result = np.argsort(product)[::-1]
-        topWords = ""
+        topWords = []
         for i in range(10):
-            topWords += i2w[result[i]]+'     '
-            topWords += str(product[result[i]])+'\n'
+            topWords.append({'word':i2w[result[i]],
+                            'val':str(float("{0:.2f}".format(product[result[i]])))})
         result = result[::-1]
         for i in range(10):
-            topWords += i2w[result[i]]+'     '
-            topWords += str(product[result[i]])+'\n'
+            topWords.append({'word':i2w[result[i]],
+                            'val':str(float("{0:.2f}".format(product[result[i]])))})
         return topWords
+
+    def getReviewWords(doc, similar):
+        i2w = joblib.load(os.path.join(
+                self.assetsDir, 'classifiers','ind2Word.pkl'))
+        review = ""
+        res = []
+        for s in similar:
+            listing = s['id']
+            path = os.path.join(self.dataDir,listing+'.json')
+            with open(path,'r') as f:
+                fileJson = json.load(f)
+                if 'review' in fileJson:
+                    review += ' '+(fileJson['review'])
+
+        tfidf = self.doc2idf(review)
+        result = np.argsort(tfidf)[::-1]
+        for i in range(10):
+            res.append({'word':i2w[result[i]],
+                        'val':str(float("{0:.2f}".format(product[result[i]]*100)))})
+        return res
 
     # turning an opened json file into feature vector
     def bundle_json_file(self, f):
@@ -166,7 +186,7 @@ class NaiveBayes(object):
                     X[0, hash(k) % self.numFeat] = float(listing[k])
                 elif type(listing[k]) is list:
                     for item in listing[k]:
-                        X[0,hash(k+str(item)) % numFeat] = 1
+                        X[0,hash(k+str(item)) % self.numFeat] = 1
                 else:
                     continue
             else:

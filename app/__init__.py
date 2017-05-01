@@ -60,7 +60,9 @@ def hostPredict():
             listing['description'] + listing['house_rules'])
         topWords = nb.getTopWords(
             listing['description'] + listing['house_rules'])
-        print(topWords)
+        reviewWords = nb.getReviewWords(
+            listing['description'] + listing['house_rules'],
+            similar)
     else:
         priceClass = -1
 
@@ -73,7 +75,8 @@ def hostPredict():
         'priceClass': str(low) + " ~ " + str(high),
         'similar': similar,
         'classifier_type': listing['classifier_type'],
-        'topWords': topWords
+        'topWords': topWords,
+        'reviewWords':reviewWords
         })
 
 @app.route("/traveler")
@@ -105,4 +108,3 @@ def send_img(path):
 def send_css(path):
     print(path)
     return send_from_directory(os.path.join(asset_dir, 'stylesheets'), path)
-
