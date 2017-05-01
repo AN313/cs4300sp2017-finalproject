@@ -32,7 +32,7 @@ class AirbnbCrawler(object):
         if 'access_token' in response_data:
             self.token = response_data['access_token']
         else:
-            print('Airbnb token is not acquired', file=sys.stderr)
+            print('Airbnb token is not acquired', sys.stderr)
         self.b2s = b2s
 
     def crawl(self, index, posBegin, posEnd, noSave=True, purpose='training'):
@@ -77,5 +77,5 @@ class AirbnbCrawler(object):
             return result
         except Exception as e:
             self.broken.add(listId)
-            print('Listing json is not acquired:', errorMsg, file=sys.stderr)
+            print('Listing json is not acquired:', errorMsg, sys.stderr)
             return False

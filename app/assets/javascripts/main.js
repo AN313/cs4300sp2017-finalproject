@@ -16,7 +16,7 @@ $(document).ready(function() {
     }
 
   });
-
+  console.log(classifier_type);
   // add amenities dynamically
   var amenities = [
     'Essentials',
@@ -71,11 +71,12 @@ $(document).ready(function() {
   });
 
   $('#btn-predict').click(function() {
+    
     var selected = [];
     $('.checkbox input:checked').each(function() {
       selected.push($(this).attr('value'));
     });
-
+    console.log(selected);
     var data = {};
 
     $('form').serializeArray().forEach(function(pair) {
@@ -85,12 +86,18 @@ $(document).ready(function() {
     data['amenities'] = selected;
     data['classifier_type'] = classifier_type;
 
+
+    console.log(data);
+    console.log(JSON.stringify(data));
+
     $.ajax({
       url: '/host/predict',
       type: 'post',
       data: JSON.stringify(data),
+      contentType: 'application/json',
       dataType: 'json',
       success: function(t) {
+        console.log(data);
         // Hide the form
         $('#row-input').hide();
         // Displayed the submitted info

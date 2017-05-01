@@ -26,9 +26,11 @@ class NaiveBayes(object):
     numFeat = 100
     strFeat = 2500
     clfDesc = None
+    clfLinReg = None
     clfListing = None
     trainingVec = None
     id2listing = None
+    tfIdfVec = None
 
     def __init__(self, b2s):
         self.b2s = b2s

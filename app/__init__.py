@@ -177,6 +177,8 @@ def hostPredict():
     similar = []
     topWords = ""
     listing = request.json
+    print(request)
+    print(listing)
     if listing['classifier_type'] == "1":
         priceClass = nb.predict_listing(listing)
     elif listing['classifier_type'] == "2":
