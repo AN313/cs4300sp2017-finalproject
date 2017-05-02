@@ -99,6 +99,10 @@ footer {
   -moz-columns: 2;
 }
 
-// li:before {
-//   content: "• ";
-// }
+.main-container{
+  width:90%;
+  background-color: rgba(255, 255, 255, 0.6);
+  padding: 20px;
+  border-radius: 5px;
+
+}
