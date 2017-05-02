@@ -84,6 +84,9 @@ footer {
   color: #000;
 }
 
+#price_range{
+  margin-left: 20px;
+}
 
 .sim-words-btn {
   display: none;

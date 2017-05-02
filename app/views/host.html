@@ -196,8 +196,8 @@
 
                   <!-- change to detailed form later -->
                   <div class="form-group">
-                    <label for="address">Address</label>
-                    <input type="text" class="form-control" name="address" placeholder="New York, NY, United States">
+                    <label for="zipcode">Zipcode</label>
+                    <input type="text" class="form-control" name="zipcode">
                   </div>
 
                   <div class="form-group">
@@ -217,18 +217,22 @@
             </div>
           </div>
           <!-- /.row -->
+
+
+
+
           <div id="row-prediction" class="row">
             <h1 class="section-heading">Listing Price Prediction</h1>
             <div class="col-lg-12">
-              <p class="json"></p>
+              
+              <h3>Predicted price range:</h3>
               <div id = "price_range">
-                <h3>Predicted price range:</h3>
               </div>
 
               <!-- top and low words -->
               <div id="toplowWords">
                 <h3><a data-toggle="collapse" href="#sim-words" aria-expanded="false" aria-controls="sim-words">
-                  Display influential words
+                  Display most influential words
                 </a></h3>
 
                 <div class="collapse" id="sim-words">

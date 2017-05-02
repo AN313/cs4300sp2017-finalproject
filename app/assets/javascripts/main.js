@@ -104,25 +104,24 @@ $(document).ready(function() {
         $('#row-prediction').show();
 
         // console.log(t.similar);
+          // price_html = '<div class="box"><div class="wrap">';
           price_html = '';
           var range;
           var prob;
           t.priceClass.forEach(function(entry) {
             range = entry['priceRange'];
             prob = entry['prob'];
-            price_html += '<h3>'+ range + ' (' + prob + ')'+'</h3>';
+            price_html += '<h4 class="priceRange">'+ range + ' (' + prob + ')'+'</h4>';
           });
+          // price_html += '</div></div>';
           $('#price_range').append(price_html);
 
         // Display result
         if (t.classifier_type === '1') {
           $('#toplowWords').hide();
           $('#reviewWords').hide();
-          // $('#simtitle').hide();
 
         }else{
-
-        
 
           // top words 
           word_html = '<div><h4>Most influenctial 10:</h4><ul class="close-words">';
@@ -171,6 +170,7 @@ $(document).ready(function() {
           var pic_url = entry['picture_url'];
           var description = entry['description'];
           var sim_name = entry['name'];
+          var sim_price = entry['price'];
 
           sim_html += [
             '<div class="box">',
@@ -180,6 +180,7 @@ $(document).ready(function() {
             '"><h3>',
             (i+1).toString() + '. ' + sim_name,
             '</h3></a>',
+            '<h4>'+ '$'+ sim_price+'</h4>',
             '<div id="listing_des">',
             description,
             '</div>',
@@ -193,9 +194,8 @@ $(document).ready(function() {
           ].join('');
         });
 
-
         $('#similar').append(sim_html);
-        var slideHeight = 160;
+        var slideHeight = 200;
         $(".box").each(function() {
             var $this = $(this);
             var $wrap = $this.children(".wrap");
@@ -226,7 +226,6 @@ $(document).ready(function() {
             });
           }
         });
-
       }
     });
   });

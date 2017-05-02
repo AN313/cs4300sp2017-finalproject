@@ -12,7 +12,7 @@ class NaiveBayes(object):
 
     # features we are going to use
     FEAT = ["property_type", "additional_house_rules", "bedrooms", "max_nights",
-            "summary", "neighborhood", "space", "address", "square_feet",
+            "summary", "neighborhood", "space", "zipcode", "square_feet",
             "check_out_time", "transit", "bathrooms", "amenities",
             "instant_bookable", "experiences_offered", "star_rating", "name",
             "max_nights", "check_in_time", "cancellation_policy",
@@ -112,14 +112,14 @@ class NaiveBayes(object):
         for i in range(10):
             if product[result[i]] > 0:
                 topWords.append({'word':i2w[result[i]],
-                            'val':str(float("{0:.2f}".format(product[result[i]])))})
+                            'val':str(float("{0:.2f}".format(100 * product[result[i]])))+'%'})
             else:
                 break
         result = result[::-1]
         for i in range(10):
-            if product[result[i]] > 0:
+            if product[result[i]] < 0:
                 lowWords.append({'word':i2w[result[i]],
-                            'val':str(float("{0:.2f}".format(product[result[i]])))})
+                            'val':str(float("{0:.2f}".format(100 * product[result[i]])))+'%'})
             else:
                 break
         return topWords, lowWords
@@ -141,7 +141,7 @@ class NaiveBayes(object):
         result = np.argsort(tfidf)[::-1]
         for i in range(10):
             res.append({'word':i2w[result[i]],
-                        'val':str(float("{0:.2f}".format(tfidf[result[i]]*100)))})
+                        'val':str(float("{0:.2f}".format(tfidf[result[i]]*100)))+'%'})
         return res
 
     # turning an opened json file into feature vector
