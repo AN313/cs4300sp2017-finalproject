@@ -58,11 +58,9 @@ def hostPredict():
             listing['description'] + listing['house_rules'])
         similar = nb.find_similar(
             listing['description'] + listing['house_rules'])
-        topWords = nb.getTopWords(
+        topWords, lowWords = nb.getTopWords(
             listing['description'] + listing['house_rules'])
-        reviewWords = nb.getReviewWords(
-            listing['description'] + listing['house_rules'],
-            similar)
+        reviewWords = nb.getReviewWords(listing['description'] + listing['house_rules'] , similar)
     else:
         priceClass = -1
 
@@ -76,6 +74,7 @@ def hostPredict():
         'similar': similar,
         'classifier_type': listing['classifier_type'],
         'topWords': topWords,
+        'lowWords':lowWords,
         'reviewWords':reviewWords
         })
 

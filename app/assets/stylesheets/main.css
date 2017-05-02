@@ -2,7 +2,7 @@ body {
   background-size: cover;
   padding-top: 65px;
   background-image: url('/static/images/city-background.jpg');
-  background-image: url('https://static.pexels.com/photos/165888/pexels-photo-165888.jpeg');
+  // background-image: url('https://static.pexels.com/photos/165888/pexels-photo-165888.jpeg');
   min-height: 100vh;
 }
 

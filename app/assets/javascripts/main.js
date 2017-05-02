@@ -93,15 +93,45 @@ $(document).ready(function() {
 
         // Display result
         if (t.classifier_type === '1') {
-          $('#simtitle').hide();
           $('#wordsTitle').hide();
+          $('#reviewTitle').hide();
+          $('#simtitle').hide();
+
         }
 
         $('#price_range').html(['<h2>', '$', t.priceClass,
           '</h2>'
         ].join(''));
 
+        console.log(t.topWords);
         $('#topWords').html(['<p>', t.topWords, '</p>'].join(''));
+        console.log(t.reviewWords);
+        $('#reviewWords').html(['<p>', t.reviewWords, '</p>'].join(''));
+
+        // test = [{"word": "and", "val": "4.61%"}, 
+        //         {"word": "was", "val": "3.19%"}, 
+        //         {"word": "the", "val": "2.84%"}, 
+        //         {"word": "is", "val": "2.13%"}, 
+        //         {"word": "a", "val": "2.13%"}, 
+        //           {"word": "to", "val": "2.13%"}, 
+        //           {"word": "in", "val": "1.77%"}, 
+        //           {"word": "of", "val": "1.77%"}, 
+        //           {"word": "place", "val": "1.42%"}, 
+        //           {"word": "I", "val": "1.42%"}]
+        var review_html = '';
+        t.topWords.forEach(function(entry) {
+          // cut off last 5 characters since url contains '.json'
+          
+          var val = entry['val'];
+          var word = entry['word'];
+
+          review_html += [
+            '<p>',
+            
+            '</p>'
+          ].join('');
+        });
+
 
 
         var sim_html = '';

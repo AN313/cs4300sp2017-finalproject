@@ -131,16 +131,17 @@ class NaiveBayes(object):
         product = coef*testVec.reshape(-1)
         result = np.argsort(product)[::-1]
         topWords = []
+        lowWords = []
         for i in range(10):
             topWords.append({'word':i2w[result[i]],
                             'val':str(float("{0:.2f}".format(product[result[i]])))})
         result = result[::-1]
         for i in range(10):
-            topWords.append({'word':i2w[result[i]],
+            lowWords.append({'word':i2w[result[i]],
                             'val':str(float("{0:.2f}".format(product[result[i]])))})
-        return topWords
+        return topWords, lowWords
 
-    def getReviewWords(doc, similar):
+    def getReviewWords(self, doc, similar):
         i2w = joblib.load(os.path.join(
                 self.assetsDir, 'classifiers','ind2Word.pkl'))
         review = ""
@@ -153,11 +154,11 @@ class NaiveBayes(object):
                 if 'review' in fileJson:
                     review += ' '+(fileJson['review'])
 
-        tfidf = self.doc2idf(review)
+        tfidf = self.doc2idf(review)[0]
         result = np.argsort(tfidf)[::-1]
         for i in range(10):
             res.append({'word':i2w[result[i]],
-                        'val':str(float("{0:.2f}".format(product[result[i]]*100)))})
+                        'val':str(float("{0:.2f}".format(tfidf[result[i]]*100)))})
         return res
 
     # turning an opened json file into feature vector
