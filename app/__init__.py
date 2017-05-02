@@ -64,13 +64,8 @@ def hostPredict():
     else:
         priceClass = -1
 
-    low = priceClass * 25
-    high = (priceClass + 1) * 25 - 1
-    # print(similar[2]['id'])
-    print(priceClass);
-
     return json.dumps({
-        'priceClass': str(low) + " ~ " + str(high),
+        'priceClass': priceClass,
         'similar': similar,
         'classifier_type': listing['classifier_type'],
         'topWords': topWords,
