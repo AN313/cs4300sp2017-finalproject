@@ -42,8 +42,6 @@ $(document).ready(function() {
 
   ];
 
-  // $('.modal-body').html(
-  //   '<label for="amenities">What amenities do you offer?</label>');
     amenities.forEach(function(item) {
       $('.modal-body').append(['<div class="checkbox">',
         '<label><input type="checkbox" ',
@@ -53,7 +51,6 @@ $(document).ready(function() {
         item,
         '</label></div>'
       ].join(''));
-      // console.log("in amenitiy appending");
     });
 
   
@@ -73,10 +70,6 @@ $(document).ready(function() {
     data['amenities'] = selected;
     data['classifier_type'] = classifier_type;
 
-
-    console.log(data);
-    console.log(JSON.stringify(data));
-
     $.ajax({
       url: '/host/predict',
       type: 'post',
@@ -84,7 +77,6 @@ $(document).ready(function() {
       contentType: 'application/json',
       dataType: 'json',
       success: function(t) {
-        console.log(data);
         // Hide the form
         $('#row-input').hide();
         // Displayed the submitted info
@@ -103,35 +95,39 @@ $(document).ready(function() {
           '</h2>'
         ].join(''));
 
-        console.log(t.topWords);
-        $('#topWords').html(['<p>', t.topWords, '</p>'].join(''));
-        console.log(t.reviewWords);
-        $('#reviewWords').html(['<p>', t.reviewWords, '</p>'].join(''));
+          // top words 
+          word_html = '<div><h4>Most influenctial 10:</h4><ul class="close-words">';
+          var word;
+          var val;
+          t.topWords.forEach(function(entry, i) {
+            word = entry['word'];
+            val = entry['val'];
+            word_html += '<li>' +(i+1).toString()+ '. ' +word + ' (' + val + ')</li>\n'
+          });
+          word_html += '</ul></div>';
 
-        // test = [{"word": "and", "val": "4.61%"}, 
-        //         {"word": "was", "val": "3.19%"}, 
-        //         {"word": "the", "val": "2.84%"}, 
-        //         {"word": "is", "val": "2.13%"}, 
-        //         {"word": "a", "val": "2.13%"}, 
-        //           {"word": "to", "val": "2.13%"}, 
-        //           {"word": "in", "val": "1.77%"}, 
-        //           {"word": "of", "val": "1.77%"}, 
-        //           {"word": "place", "val": "1.42%"}, 
-        //           {"word": "I", "val": "1.42%"}]
-        var review_html = '';
-        t.topWords.forEach(function(entry) {
-          // cut off last 5 characters since url contains '.json'
-          
-          var val = entry['val'];
-          var word = entry['word'];
+          // low words
+          word_html += '<div><h4>Least influenctial 10:</h4><ul class="close-words">';
+          t.lowWords.forEach(function(entry, i) {
+            word = entry['word'];
+            val = entry['val'];
+            word_html += '<li>'+(i+1).toString()+'. ' + word + ' (' + val + ')</li>\n'
+          });
+          word_html += '</ul></div>';
 
-          review_html += [
-            '<p>',
-            
-            '</p>'
-          ].join('');
-        });
+          $('.sim-words').html(word_html);
 
+
+       
+          $('#reviewWords').html(['<p>', t.reviewWords, '</p>'].join(''));
+          review_html = '<div><h4>Top 10 words in similar reviews:</h4><ul class="close-words">';
+          t.reviewWords.forEach(function(entry,i) {
+            word = entry['word'];
+            val = entry['val'];
+            review_html += '<li>' +(i+1).toString()+ '. ' +word + ' (' + val + ')</li>\n'
+          });
+          review_html += '</ul></div>';
+          $('.review-words').html(review_html);
 
 
         var sim_html = '';
@@ -151,7 +147,7 @@ $(document).ready(function() {
             '  <a href="',
             sim_url,
             '"><h3>',
-            i.toString() + '. ' + sim_name,
+            (i+1).toString() + '. ' + sim_name,
             '</h3></a>',
             '<div id="listing_des">',
             description,
@@ -172,8 +168,8 @@ $(document).ready(function() {
         $('.box').each(function() {
           var $this = $(this);
           var $wrap = $this.children(".wrap");
-        var defHeight = $wrap.height() + 10;
-        if (defHeight >= slideHeight) {
+          var defHeight = $wrap.height() + 10;
+          if (defHeight >= slideHeight) {
             var $readMore = $this.find(".read-more");
             $wrap.css("height", slideHeight + "px");
             
