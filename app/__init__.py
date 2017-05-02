@@ -66,8 +66,8 @@ def hostPredict():
     else:
         priceClass = -1
 
-    low = priceClass * 50
-    high = (priceClass + 1) * 50 - 1
+    low = priceClass * 25
+    high = (priceClass + 1) * 25 - 1
     # print(similar[2]['id'])
     print(priceClass);
 
