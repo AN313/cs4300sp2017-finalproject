@@ -103,15 +103,7 @@ $(document).ready(function() {
         // Displayed the submitted info
         $('#row-prediction').show();
 
-
-        // Display result
-        if (t.classifier_type === '1') {
-          $('#wordsTitle').hide();
-          $('#reviewTitle').hide();
-          $('#simtitle').hide();
-
-        }
-
+        // console.log(t.similar);
           price_html = '';
           var range;
           var prob;
@@ -121,6 +113,16 @@ $(document).ready(function() {
             price_html += '<h3>'+ range + ' (' + prob + ')'+'</h3>';
           });
           $('#price_range').append(price_html);
+
+        // Display result
+        if (t.classifier_type === '1') {
+          $('#toplowWords').hide();
+          $('#reviewWords').hide();
+          // $('#simtitle').hide();
+
+        }else{
+
+        
 
           // top words 
           word_html = '<div><h4>Most influenctial 10:</h4><ul class="close-words">';
@@ -146,8 +148,7 @@ $(document).ready(function() {
           $('.sim-words').html(word_html);
 
 
-        // top review words
-          // $('#reviewWords').html(['<p>', t.reviewWords, '</p>'].join(''));
+          // top review words
           review_html = '<div><h4>Top 10 words in similar reviews:</h4><ul class="close-words">';
           t.reviewWords.forEach(function(entry,i) {
             word = entry['word'];
@@ -157,7 +158,7 @@ $(document).ready(function() {
           review_html += '</ul></div>';
           $('.review-words').html(review_html);
 
-
+          }
 
         // similar listings 
         var sim_html = '';
