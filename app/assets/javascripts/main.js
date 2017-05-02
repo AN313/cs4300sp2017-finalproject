@@ -72,7 +72,7 @@ $(document).ready(function() {
       });
   });
 
-  
+
   $('#btn-predict').click(function() {
     
     var selected = [];
@@ -110,9 +110,20 @@ $(document).ready(function() {
 
         }
 
-        $('#price_range').html(['<h2>', '$', t.priceClass,
-          '</h2>'
-        ].join(''));
+        // $('#price_range').html(['<h2>', '$', t.priceClass,
+        //   '</h2>'
+        // ].join(''));
+
+          price_html = '';
+          // console.log(t.priceClass);
+          var range;
+          var prob;
+          t.priceClass.forEach(function(entry) {
+            range = entry['priceRange'];
+            prob = entry['prob'];
+            price_html += '<h3>'+ range + ' (' + prob + ')'+'</h3>';
+          });
+          $('#price_range').html(price_html);
 
           // top words 
           word_html = '<div><h4>Most influenctial 10:</h4><ul class="close-words">';
@@ -124,6 +135,7 @@ $(document).ready(function() {
             word_html += '<li>' +(i+1).toString()+ '. ' +word + ' (' + val + ')</li>\n'
           });
           word_html += '</ul></div>';
+
 
           // low words
           word_html += '<div><h4>Least influenctial 10:</h4><ul class="close-words">';
@@ -137,7 +149,7 @@ $(document).ready(function() {
           $('.sim-words').html(word_html);
 
 
-       
+        // top review words
           $('#reviewWords').html(['<p>', t.reviewWords, '</p>'].join(''));
           review_html = '<div><h4>Top 10 words in similar reviews:</h4><ul class="close-words">';
           t.reviewWords.forEach(function(entry,i) {
@@ -149,6 +161,8 @@ $(document).ready(function() {
           $('.review-words').html(review_html);
 
 
+
+        // similar listings 
         var sim_html = '';
         t.similar.forEach(function(entry, i) {
           // cut off last 5 characters since url contains '.json'
@@ -190,7 +204,7 @@ $(document).ready(function() {
             var $des_height = $this.find("#listing_des").height();
             var $pic_height = $this.find("#listing_pic").height();
             var $longer = $des_height > $pic_height ? $des_height : $pic_height;
-            var defHeight = $longer + 10;
+            var defHeight = $wrap.height() + 10;
             if (defHeight >= slideHeight) {
                 var $readMore = $this.find(".read-more");
                 $wrap.css("height", slideHeight + "px");

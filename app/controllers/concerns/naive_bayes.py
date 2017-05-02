@@ -76,7 +76,7 @@ class NaiveBayes(object):
         test = self.bundle_json_obj(jsonObj)
         clf = joblib.load(os.path.join(
             self.assetsDir, 'classifiers', 'nb_listing.pkl'))
-        print(clf.predict(test)[0])
+        # print(clf.predict(test)[0])
         return clf.predict(test)[0]
 
     def int2Price(self, rank):
@@ -91,9 +91,9 @@ class NaiveBayes(object):
             self.assetsDir, 'classifiers', 'lr_listing.pkl'))
         probs = clf.predict_proba(test)[0]
         res = np.argsort(probs)[::-1]
-        for i in range(2):
+        for i in range(3):
             result.append({'priceRange':self.int2Price(res[i]),
-                            'prob':str(float("{0:.2f}".format(probs[res[i]])))})
+                            'prob':str(float("{0:.2f}".format(100*probs[res[i]])))+'%'})
         return result
 
     def doc2idf(self, doc):
