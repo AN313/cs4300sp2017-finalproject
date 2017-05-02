@@ -34,24 +34,19 @@ class NaiveBayes(object):
         similar = []
         test = self.bundle_json_obj(jsonObj)
         clf = joblib.load(os.path.join(
-<<<<<<< HEAD
             self.assetsDir, 'classifiers', 'knn_listing.pkl'))
         id2listing = joblib.load(os.path.join(
             self.assetsDir, 'classifiers', 'id2listing.pkl'))
-        neighbs = clf.kenighbours(test, n_neighbors=10, return_distance=False)
+        neighbs = clf.kneighbors(test, n_neighbors=10, return_distance=False)
         probs = clf.predict_proba(test)[0]
         res = np.argsort(probs)[::-1]
-        for i in range(2):
+        for i in range(3):
             priceRange.append({'priceRange':self.int2Price(res[i]),
-                        'prob':str(float("{0:.2f}".format(probs[res[i]])))})
+                        'prob':str(float("{0:.2f}".format(100 * probs[res[i]])))+'%'})
         for i in range(10):
             similar.append(self.getListingInfo(str(id2listing[neighbs[0][i]])))
         return priceRange, similar
-=======
-            self.assetsDir, 'classifiers', 'nb_listing.pkl'))
-        # print(clf.predict(test)[0])
-        return clf.predict(test)[0]
->>>>>>> f65dbd8fe9c1e65e99730b20fc500533814acd25
+
 
     def int2Price(self, rank):
         return str(rank*25)+' ~ '+str((rank+1)*25-1)
@@ -67,7 +62,7 @@ class NaiveBayes(object):
         res = np.argsort(probs)[::-1]
         for i in range(3):
             result.append({'priceRange':self.int2Price(res[i]),
-                            'prob':str(float("{0:.2f}".format(100*probs[res[i]])))+'%'})
+                            'prob':str(float("{0:.2f}".format(100 * probs[res[i]])))+'%'})
         return result
 
     def doc2idf(self, doc):
@@ -169,16 +164,17 @@ class NaiveBayes(object):
         # adding features
         i = 0
         for k in self.FEAT:
-            if type(listing[k]) is str:
-                X[0,i] = abs(hash(listing[k])%10000)
-            elif type(listing[k]) is int or type(listing[k]) is float:
-                X[0,i] = float(listing[k])
-            elif type(listing[k]) is list:
-                for item in listing[k]:
-                    X[0,i] = abs(hash(item)%10000)
-            else:
-                continue
-            i = i + 1
+            if k in listing:
+                if type(listing[k]) is str:
+                    X[0,i] = abs(hash(listing[k])%10000)
+                elif type(listing[k]) is int or type(listing[k]) is float:
+                    X[0,i] = float(listing[k])
+                elif type(listing[k]) is list:
+                    for item in listing[k]:
+                        X[0,i] = abs(hash(item)%10000)
+                else:
+                    continue
+                i = i + 1
         X = X.reshape(1, -1)
         return X
 

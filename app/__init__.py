@@ -52,9 +52,9 @@ def hostPredict():
     lowWords = ""
     reviewWords = ""
     listing = request.json
-    print(listing['classifier_type'])
+    # print(listing['classifier_type'])
     if listing['classifier_type'] == "1":
-        priceClass = nb.predict_listing(listing)
+        priceClass, similar = nb.predict_listing(listing)
     elif listing['classifier_type'] == "2":
         priceClass = nb.predict_str(
             listing['description'] + listing['house_rules'])
@@ -66,6 +66,7 @@ def hostPredict():
     else:
         priceClass = -1
 
+    print(similar)
     return json.dumps({
         'priceClass': priceClass,
         'similar': similar,
