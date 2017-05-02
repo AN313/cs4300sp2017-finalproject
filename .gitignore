@@ -1,6 +1,5 @@
 # project specific
 *.ipynb
-*.pkl
 .ipynb_checkpoints/
 
 # Byte-compiled / optimized / DLL files
