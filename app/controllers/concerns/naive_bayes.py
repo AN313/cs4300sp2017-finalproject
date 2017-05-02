@@ -79,14 +79,22 @@ class NaiveBayes(object):
         print(clf.predict(test)[0])
         return clf.predict(test)[0]
 
+    def int2Price(self, rank):
+        return str(rank*25)+' ~ '+str((rank+1)*25-1)
+
     # Input:
     # strObj: input String
     def predict_str(self, strObj):
+        result = []
         test = self.doc2idf(strObj)
         clf = joblib.load(os.path.join(
             self.assetsDir, 'classifiers', 'lr_listing.pkl'))
-        print(clf.predict(test))
-        return clf.predict(test)[0]
+        probs = clf.predict_proba(test)
+        res = np.argsort(probs)[::-1]
+        for i in range(2):
+            result.append({'priceRange':self.int2Price(res[i]),
+                            'prob':str(float("{0:.2f}".format(probs[res[i]])))})
+        return result
 
     def doc2idf(self, doc):
         tfidf_vec = joblib.load(os.path.join(
