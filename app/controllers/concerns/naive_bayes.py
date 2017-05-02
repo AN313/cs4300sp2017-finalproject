@@ -27,57 +27,25 @@ class NaiveBayes(object):
         self.dataDir = dataDir
         self.assetsDir = assetsDir
 
-    # trains a naive bayes classifier on listings in /data/sensei
-    def train_classifier_listing(self):
-        clf = GaussianNB()
-        trail = os.walk(self.dataDir)
-        for _, _, files in trail:
-            X = np.zeros((len(files), self.numFeat))
-            Y = np.zeros(len(files))
-            for i, f in enumerate(files):
-                # read json into feature vector
-                if not f.endswith('.json'):
-                    continue
-                raw = open(os.path.join(self.dataDir, f), 'r')
-                listing = json.load(raw)
-                X[i] = self.bundle_json_obj(listing)
-                Y[i] = max(int(listing['price'] / 50), 10)
-        clf.fit(X, Y)
-        joblib.dump(clf, os.path.join(
-            self.assetsDir, 'classifiers', 'nb_listing.pkl'))
-        return clf.score(X, Y)
-
-    # train a classifier on description
-    def train_classifier_desc(self):
-        clf = MultinomialNB()
-        trail = os.walk(self.dataDir)
-        for _, _, files in trail:
-            X = np.zeros((len(files), self.strFeat))
-            Y = np.zeros(len(files))
-            for i, f in enumerate(files):
-                # read json into dict
-                if not f.endswith('.json'):
-                    continue
-                raw = open(os.path.join(self.dataDir, f), 'r')
-                listing = json.load(raw)
-                X[i] = self.parse_str('{} {} {}'.format(
-                                      listing['description'],
-                                      listing['name'],
-                                      listing['house_rules']))
-                Y[i] = max(int(listing['price'] / 50), 10)
-        clf.fit(X, Y)
-        joblib.dump(clf, os.path.join(
-            self.assetsDir, 'classifiers', 'nb_str.pkl'))
-        return clf.score(X, Y)
-
     # Input:
     # jsonObj: json object
     def predict_listing(self, jsonObj):
+        priceRange = []
+        similar = []
         test = self.bundle_json_obj(jsonObj)
         clf = joblib.load(os.path.join(
-            self.assetsDir, 'classifiers', 'nb_listing.pkl'))
-        print(clf.predict(test)[0])
-        return clf.predict(test)[0]
+            self.assetsDir, 'classifiers', 'knn_listing.pkl'))
+        id2listing = joblib.load(os.path.join(
+            self.assetsDir, 'classifiers', 'id2listing.pkl'))
+        neighbs = clf.kenighbours(test, n_neighbors=10, return_distance=False)
+        probs = clf.predict_proba(test)[0]
+        res = np.argsort(probs)[::-1]
+        for i in range(2):
+            priceRange.append({'priceRange':self.int2Price(res[i]),
+                        'prob':str(float("{0:.2f}".format(probs[res[i]])))})
+        for i in range(10):
+            similar.append(self.getListingInfo(str(id2listing[neighbs[0][i]])))
+        return priceRange, similar
 
     def int2Price(self, rank):
         return str(rank*25)+' ~ '+str((rank+1)*25-1)
@@ -140,12 +108,18 @@ class NaiveBayes(object):
         result = np.argsort(product)[::-1]
         topWords = []
         for i in range(10):
-            topWords.append({'word':i2w[result[i]],
+            if product[result[i]] > 0:
+                topWords.append({'word':i2w[result[i]],
                             'val':str(float("{0:.2f}".format(product[result[i]])))})
+            else:
+                break
         result = result[::-1]
         for i in range(10):
-            topWords.append({'word':i2w[result[i]],
+            if product[result[i]] > 0:
+                topWords.append({'word':i2w[result[i]],
                             'val':str(float("{0:.2f}".format(product[result[i]])))})
+            else:
+                break
         return topWords
 
     def getReviewWords(doc, similar):
@@ -186,19 +160,18 @@ class NaiveBayes(object):
     def bundle_json_obj(self, listing):
         X = np.zeros((1, self.numFeat))
         # adding features
+        i = 0
         for k in self.FEAT:
-            if k in listing:
-                if type(listing[k]) is str:
-                    X[0, hash(k) % self.numFeat] = 1
-                elif type(listing[k]) is int or type(listing[k]) is float:
-                    X[0, hash(k) % self.numFeat] = float(listing[k])
-                elif type(listing[k]) is list:
-                    for item in listing[k]:
-                        X[0,hash(k+str(item)) % self.numFeat] = 1
-                else:
-                    continue
+            if type(listing[k]) is str:
+                X[0,i] = abs(hash(listing[k])%10000)
+            elif type(listing[k]) is int or type(listing[k]) is float:
+                X[0,i] = float(listing[k])
+            elif type(listing[k]) is list:
+                for item in listing[k]:
+                    X[0,i] = abs(hash(item)%10000)
             else:
                 continue
+            i = i + 1
         X = X.reshape(1, -1)
         return X
 
