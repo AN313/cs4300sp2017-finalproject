@@ -53,6 +53,25 @@ $(document).ready(function() {
       ].join(''));
     });
 
+  $('#sel-amenities').click(function() {
+    $('#modal-sel-amenities input[type="checkbox"]').prop('checked',
+      false);
+    $('#modal-sel-amenities').modal();
+  });
+
+  $('#modal-sel-amenities-commit').click(function() {
+    $('#amenities > div:last-child').html('');
+    $('#modal-sel-amenities input[type="checkbox"]:checked').each(
+      function() {
+        $('#amenities > div:last-child').append([
+          '<span class="label label-default">',
+          $(this).val(),
+          '</span>',
+          ' '
+        ].join(''));
+      });
+  });
+
   
   $('#btn-predict').click(function() {
     
@@ -164,32 +183,34 @@ $(document).ready(function() {
 
 
         $('#similar').append(sim_html);
-        var slideHeight = 200;
-        $('.box').each(function() {
-          var $this = $(this);
-          var $wrap = $this.children(".wrap");
-          var defHeight = $wrap.height() + 10;
-          if (defHeight >= slideHeight) {
-            var $readMore = $this.find(".read-more");
-            $wrap.css("height", slideHeight + "px");
-            
-            $readMore.append("<a href='#'>Click to Read More</a>");
-            $readMore.children("a").bind("click", function(event) {
-                var curHeight = $wrap.height();
-                if (curHeight == slideHeight - 20) {
-                    $wrap.animate({
-                        height: defHeight
-                    }, "normal");
-                    $(this).text("Close");
-                    $wrap.children(".gradient").fadeOut();
-                } else {
-                    $wrap.animate({
-                        height: slideHeight
-                    }, "normal");
-                    $(this).text("Click to Read More");
-                    $wrap.children(".gradient").fadeIn();
-                }
-                return false;
+        var slideHeight = 160;
+        $(".box").each(function() {
+            var $this = $(this);
+            var $wrap = $this.children(".wrap");
+            var $des_height = $this.find("#listing_des").height();
+            var $pic_height = $this.find("#listing_pic").height();
+            var $longer = $des_height > $pic_height ? $des_height : $pic_height;
+            var defHeight = $longer + 10;
+            if (defHeight >= slideHeight) {
+                var $readMore = $this.find(".read-more");
+                $wrap.css("height", slideHeight + "px");
+                $readMore.append("<a href='#'>Click to Read More</a>");
+                $readMore.children("a").bind("click", function(event) {
+                    var curHeight = $wrap.height();
+                    if (curHeight == slideHeight - 20) {
+                        $wrap.animate({
+                            height: defHeight
+                        }, "normal");
+                        $(this).text("Close");
+                        $wrap.children(".gradient").fadeOut();
+                    } else {
+                        $wrap.animate({
+                            height: slideHeight
+                        }, "normal");
+                        $(this).text("Click to Read More");
+                        $wrap.children(".gradient").fadeIn();
+                    }
+                    return false;
             });
           }
         });

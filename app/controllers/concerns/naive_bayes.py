@@ -89,7 +89,7 @@ class NaiveBayes(object):
         test = self.doc2idf(strObj)
         clf = joblib.load(os.path.join(
             self.assetsDir, 'classifiers', 'lr_listing.pkl'))
-        probs = clf.predict_proba(test)
+        probs = clf.predict_proba(test)[0]
         res = np.argsort(probs)[::-1]
         for i in range(2):
             result.append({'priceRange':self.int2Price(res[i]),

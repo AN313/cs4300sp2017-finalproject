@@ -49,6 +49,8 @@ def hostIndex():
 def hostPredict():
     similar = []
     topWords = ""
+    lowWords = ""
+    reviewWords = ""
     listing = request.json
     print(listing['classifier_type'])
     if listing['classifier_type'] == "1":
