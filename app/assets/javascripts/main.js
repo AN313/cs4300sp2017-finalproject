@@ -72,14 +72,15 @@ $(document).ready(function() {
       });
   });
 
+//////////////////// RESULTS ///////////////////
 
   $('#btn-predict').click(function() {
-    
+    // get selected amenities
     var selected = [];
     $('.checkbox input:checked').each(function() {
       selected.push($(this).attr('value'));
     });
-    console.log(selected);
+    // console.log(selected);
     var data = {};
 
     $('form').serializeArray().forEach(function(pair) {
@@ -89,6 +90,7 @@ $(document).ready(function() {
     data['amenities'] = selected;
     data['classifier_type'] = classifier_type;
 
+    //ajax call
     $.ajax({
       url: '/host/predict',
       type: 'post',
@@ -110,12 +112,7 @@ $(document).ready(function() {
 
         }
 
-        // $('#price_range').html(['<h2>', '$', t.priceClass,
-        //   '</h2>'
-        // ].join(''));
-
           price_html = '';
-          // console.log(t.priceClass);
           var range;
           var prob;
           t.priceClass.forEach(function(entry) {
@@ -123,7 +120,7 @@ $(document).ready(function() {
             prob = entry['prob'];
             price_html += '<h3>'+ range + ' (' + prob + ')'+'</h3>';
           });
-          $('#price_range').html(price_html);
+          $('#price_range').append(price_html);
 
           // top words 
           word_html = '<div><h4>Most influenctial 10:</h4><ul class="close-words">';
@@ -150,7 +147,7 @@ $(document).ready(function() {
 
 
         // top review words
-          $('#reviewWords').html(['<p>', t.reviewWords, '</p>'].join(''));
+          // $('#reviewWords').html(['<p>', t.reviewWords, '</p>'].join(''));
           review_html = '<div><h4>Top 10 words in similar reviews:</h4><ul class="close-words">';
           t.reviewWords.forEach(function(entry,i) {
             word = entry['word'];
