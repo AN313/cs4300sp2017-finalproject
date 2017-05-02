@@ -42,8 +42,6 @@ $(document).ready(function() {
 
   ];
 
-  // $('.modal-body').html(
-  //   '<label for="amenities">What amenities do you offer?</label>');
     amenities.forEach(function(item) {
       $('.modal-body').append(['<div class="checkbox">',
         '<label><input type="checkbox" ',
@@ -53,10 +51,28 @@ $(document).ready(function() {
         item,
         '</label></div>'
       ].join(''));
-      // console.log("in amenitiy appending");
     });
 
-  
+  $('#sel-amenities').click(function() {
+    $('#modal-sel-amenities input[type="checkbox"]').prop('checked',
+      false);
+    $('#modal-sel-amenities').modal();
+  });
+
+  $('#modal-sel-amenities-commit').click(function() {
+    $('#amenities > div:last-child').html('');
+    $('#modal-sel-amenities input[type="checkbox"]:checked').each(
+      function() {
+        $('#amenities > div:last-child').append([
+          '<span class="label label-default">',
+          $(this).val(),
+          '</span>',
+          ' '
+        ].join(''));
+      });
+  });
+
+
   $('#btn-predict').click(function() {
     
     var selected = [];
@@ -73,10 +89,6 @@ $(document).ready(function() {
     data['amenities'] = selected;
     data['classifier_type'] = classifier_type;
 
-
-    console.log(data);
-    console.log(JSON.stringify(data));
-
     $.ajax({
       url: '/host/predict',
       type: 'post',
@@ -84,7 +96,6 @@ $(document).ready(function() {
       contentType: 'application/json',
       dataType: 'json',
       success: function(t) {
-        console.log(data);
         // Hide the form
         $('#row-input').hide();
         // Displayed the submitted info
@@ -93,17 +104,65 @@ $(document).ready(function() {
 
         // Display result
         if (t.classifier_type === '1') {
-          $('#simtitle').hide();
           $('#wordsTitle').hide();
+          $('#reviewTitle').hide();
+          $('#simtitle').hide();
+
         }
 
-        $('#price_range').html(['<h2>', '$', t.priceClass,
-          '</h2>'
-        ].join(''));
+        // $('#price_range').html(['<h2>', '$', t.priceClass,
+        //   '</h2>'
+        // ].join(''));
 
-        $('#topWords').html(['<p>', t.topWords, '</p>'].join(''));
+          price_html = '';
+          // console.log(t.priceClass);
+          var range;
+          var prob;
+          t.priceClass.forEach(function(entry) {
+            range = entry['priceRange'];
+            prob = entry['prob'];
+            price_html += '<h3>'+ range + ' (' + prob + ')'+'</h3>';
+          });
+          $('#price_range').html(price_html);
+
+          // top words 
+          word_html = '<div><h4>Most influenctial 10:</h4><ul class="close-words">';
+          var word;
+          var val;
+          t.topWords.forEach(function(entry, i) {
+            word = entry['word'];
+            val = entry['val'];
+            word_html += '<li>' +(i+1).toString()+ '. ' +word + ' (' + val + ')</li>\n'
+          });
+          word_html += '</ul></div>';
 
 
+          // low words
+          word_html += '<div><h4>Least influenctial 10:</h4><ul class="close-words">';
+          t.lowWords.forEach(function(entry, i) {
+            word = entry['word'];
+            val = entry['val'];
+            word_html += '<li>'+(i+1).toString()+'. ' + word + ' (' + val + ')</li>\n'
+          });
+          word_html += '</ul></div>';
+
+          $('.sim-words').html(word_html);
+
+
+        // top review words
+          $('#reviewWords').html(['<p>', t.reviewWords, '</p>'].join(''));
+          review_html = '<div><h4>Top 10 words in similar reviews:</h4><ul class="close-words">';
+          t.reviewWords.forEach(function(entry,i) {
+            word = entry['word'];
+            val = entry['val'];
+            review_html += '<li>' +(i+1).toString()+ '. ' +word + ' (' + val + ')</li>\n'
+          });
+          review_html += '</ul></div>';
+          $('.review-words').html(review_html);
+
+
+
+        // similar listings 
         var sim_html = '';
         t.similar.forEach(function(entry, i) {
           // cut off last 5 characters since url contains '.json'
@@ -121,7 +180,7 @@ $(document).ready(function() {
             '  <a href="',
             sim_url,
             '"><h3>',
-            i.toString() + '. ' + sim_name,
+            (i+1).toString() + '. ' + sim_name,
             '</h3></a>',
             '<div id="listing_des">',
             description,
@@ -138,32 +197,34 @@ $(document).ready(function() {
 
 
         $('#similar').append(sim_html);
-        var slideHeight = 200;
-        $('.box').each(function() {
-          var $this = $(this);
-          var $wrap = $this.children(".wrap");
-        var defHeight = $wrap.height() + 10;
-        if (defHeight >= slideHeight) {
-            var $readMore = $this.find(".read-more");
-            $wrap.css("height", slideHeight + "px");
-            
-            $readMore.append("<a href='#'>Click to Read More</a>");
-            $readMore.children("a").bind("click", function(event) {
-                var curHeight = $wrap.height();
-                if (curHeight == slideHeight - 20) {
-                    $wrap.animate({
-                        height: defHeight
-                    }, "normal");
-                    $(this).text("Close");
-                    $wrap.children(".gradient").fadeOut();
-                } else {
-                    $wrap.animate({
-                        height: slideHeight
-                    }, "normal");
-                    $(this).text("Click to Read More");
-                    $wrap.children(".gradient").fadeIn();
-                }
-                return false;
+        var slideHeight = 160;
+        $(".box").each(function() {
+            var $this = $(this);
+            var $wrap = $this.children(".wrap");
+            var $des_height = $this.find("#listing_des").height();
+            var $pic_height = $this.find("#listing_pic").height();
+            var $longer = $des_height > $pic_height ? $des_height : $pic_height;
+            var defHeight = $wrap.height() + 10;
+            if (defHeight >= slideHeight) {
+                var $readMore = $this.find(".read-more");
+                $wrap.css("height", slideHeight + "px");
+                $readMore.append("<a href='#'>Click to Read More</a>");
+                $readMore.children("a").bind("click", function(event) {
+                    var curHeight = $wrap.height();
+                    if (curHeight == slideHeight - 20) {
+                        $wrap.animate({
+                            height: defHeight
+                        }, "normal");
+                        $(this).text("Close");
+                        $wrap.children(".gradient").fadeOut();
+                    } else {
+                        $wrap.animate({
+                            height: slideHeight
+                        }, "normal");
+                        $(this).text("Click to Read More");
+                        $wrap.children(".gradient").fadeIn();
+                    }
+                    return false;
             });
           }
         });
