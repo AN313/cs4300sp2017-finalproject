@@ -65,8 +65,7 @@ def hostPredict():
         reviewWords = nb.getReviewWords(listing['description'] + listing['house_rules'] , similar)
     else:
         priceClass = -1
-
-    print(similar)
+        
     return json.dumps({
         'priceClass': priceClass,
         'similar': similar,
