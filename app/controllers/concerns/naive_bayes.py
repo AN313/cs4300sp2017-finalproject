@@ -68,7 +68,7 @@ class NaiveBayes(object):
     def doc2idf(self, doc):
         tfidf_vec = joblib.load(os.path.join(
             self.assetsDir, 'classifiers', 'tfidf.pkl'))
-        return tfidf_vec.transform([doc]).toarray()
+        return tfidf_vec.transform(doc).toarray()
 
     def find_similar(self,strObj):
         test = self.doc2idf(strObj)
@@ -128,7 +128,10 @@ class NaiveBayes(object):
         i2w = joblib.load(os.path.join(
                 self.assetsDir, 'classifiers','ind2Word.pkl'))
         review = ""
+        revs = []
         res = []
+        posReview = []
+        negReview = []
         for s in similar:
             listing = s['id']
             path = os.path.join(self.dataDir,listing+'.json')
@@ -136,13 +139,25 @@ class NaiveBayes(object):
                 fileJson = json.load(f)
                 if 'review' in fileJson:
                     review += ' '+(fileJson['review'])
-
-        tfidf = self.doc2idf(review)[0]
+                    revs.append(fileJson['review'])
+        tfidf = self.doc2idf([review])[0]
+        revTF = self.doc2idf(revs)
+        sentiment = joblib.load(self.assetsDir, 'classifiers','sentiment.pkl')
         result = np.argsort(tfidf)[::-1]
         for i in range(10):
             res.append({'word':i2w[result[i]],
                         'val':str(float("{0:.2f}".format(tfidf[result[i]]*100)))})
-        return res
+
+        sentRes = sentiment.predict_proba(revTF)
+        result = np.argsort(np.argsort(sentRes)).T[1,:]
+        for i in range(3):
+            negReview.append({'review':revs[result[i]],
+                        'val':str(float("{0:.2f}".format(sentRes[result[i]]*100)))})
+        result = result[::-1]
+        for i in range(3):
+            negReview.append({'review':revs[result[i]],
+                        'val':str(float("{0:.2f}".format(sentRes[result[i]]*100)))})
+        return res,negReview,posReview
 
     # turning an opened json file into feature vector
     def bundle_json_file(self, f):
