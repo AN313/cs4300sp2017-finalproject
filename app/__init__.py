@@ -62,7 +62,7 @@ def hostPredict():
             listing['description'] + listing['house_rules'])
         topWords, lowWords = nb.getTopWords(
             listing['description'] + listing['house_rules'])
-        reviewWords = nb.getReviewWords(listing['description'] + listing['house_rules'] , similar)
+        reviewWords, negReview, posReview = nb.getReviewWords(listing['description'] + listing['house_rules'] , similar)
     else:
         priceClass = -1
         
@@ -72,7 +72,9 @@ def hostPredict():
         'classifier_type': listing['classifier_type'],
         'topWords': topWords,
         'lowWords':lowWords,
-        'reviewWords':reviewWords
+        'reviewWords':reviewWords,
+        'negReview':negReview,
+        'posReview':posReview
         })
 
 @app.route("/traveler")

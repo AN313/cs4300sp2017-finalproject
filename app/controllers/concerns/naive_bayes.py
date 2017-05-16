@@ -55,7 +55,7 @@ class NaiveBayes(object):
     # strObj: input String
     def predict_str(self, strObj):
         result = []
-        test = self.doc2idf(strObj)
+        test = self.doc2idf([strObj])
         clf = joblib.load(os.path.join(
             self.assetsDir, 'classifiers', 'lr_listing.pkl'))
         probs = clf.predict_proba(test)[0]
@@ -71,7 +71,7 @@ class NaiveBayes(object):
         return tfidf_vec.transform(doc).toarray()
 
     def find_similar(self,strObj):
-        test = self.doc2idf(strObj)
+        test = self.doc2idf([strObj])
         docVec = joblib.load(os.path.join(
             self.assetsDir, 'classifiers', 'docVec.pkl'))
         id2listing = joblib.load(os.path.join(
@@ -97,7 +97,7 @@ class NaiveBayes(object):
         return result
 
     def getTopWords(self, doc):
-        testVec = self.doc2idf(doc)
+        testVec = self.doc2idf([doc])
         i2w = joblib.load(os.path.join(
             self.assetsDir, 'classifiers','ind2Word.pkl'))
         logReg = joblib.load(os.path.join(
@@ -142,14 +142,15 @@ class NaiveBayes(object):
                     revs.append(fileJson['review'])
         tfidf = self.doc2idf([review])[0]
         revTF = self.doc2idf(revs)
-        sentiment = joblib.load(self.assetsDir, 'classifiers','sentiment.pkl')
+        sentiment = joblib.load(os.path.join(
+                self.assetsDir, 'classifiers','sentiment.pkl'))
         result = np.argsort(tfidf)[::-1]
         for i in range(10):
             res.append({'word':i2w[result[i]],
                         'val':str(float("{0:.2f}".format(tfidf[result[i]]*100)))})
 
-        sentRes = sentiment.predict_proba(revTF)
-        result = np.argsort(np.argsort(sentRes)).T[1,:]
+        sentRes = sentiment.predict_proba(revTF)[:,1].ravel()
+        result = np.argsort(np.argsort(sentRes)).T
         for i in range(3):
             negReview.append({'review':revs[result[i]],
                         'val':str(float("{0:.2f}".format(sentRes[result[i]]*100)))})
