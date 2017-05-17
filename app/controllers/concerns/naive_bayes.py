@@ -147,17 +147,19 @@ class NaiveBayes(object):
         result = np.argsort(tfidf)[::-1]
         for i in range(10):
             res.append({'word':i2w[result[i]],
-                        'val':str(float("{0:.2f}".format(tfidf[result[i]]*100)))})
+                        'val':str(float("{0:.2f}".format(tfidf[result[i]]*100)))+'%'})
 
         sentRes = sentiment.predict_proba(revTF)[:,1].ravel()
-        result = np.argsort(np.argsort(sentRes)).T
+        print(sentRes)
+        result = np.argsort(sentRes).T
+        print(result)
         for i in range(3):
             negReview.append({'review':revs[result[i]],
-                        'val':str(float("{0:.2f}".format(sentRes[result[i]]*100)))})
+                        'val':str(float("{0:.2f}".format((1-sentRes[result[i]])*100)))+'%'})
         result = result[::-1]
         for i in range(3):
-            negReview.append({'review':revs[result[i]],
-                        'val':str(float("{0:.2f}".format(sentRes[result[i]]*100)))})
+            posReview.append({'review':revs[result[i]],
+                        'val':str(float("{0:.2f}".format(sentRes[result[i]]*100)))+'%'})
         return res,negReview,posReview
 
     # turning an opened json file into feature vector

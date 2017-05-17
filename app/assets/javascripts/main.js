@@ -43,7 +43,7 @@ $(document).ready(function() {
   ];
 
     amenities.forEach(function(item) {
-      $('.modal-body').append(['<div class="checkbox">',
+      $('.modal-body amenities').append(['<div class="checkbox">',
         '<label><input type="checkbox" ',
         'name="amenities" value="',
         item,
@@ -120,6 +120,7 @@ $(document).ready(function() {
         if (t.classifier_type === '1') {
           $('#toplowWords').hide();
           $('#reviewWords').hide();
+          $('#sentiReviews').hide();
 
         }else{
 
@@ -156,6 +157,32 @@ $(document).ready(function() {
           });
           review_html += '</ul></div>';
           $('.review-words').html(review_html);
+
+
+
+
+           // top reviews
+          senti_html = '<div><h4>Most positive reviews:</h4><ul class="close-words">';
+          t.posReview.forEach(function(entry, i) {
+            word = entry['review'];
+            val = entry['val'];
+            senti_html += '<li>' +(i+1).toString()+ '. ' +word + ' (' + val + ')</li>\n'
+          });
+          senti_html += '</ul></div>';
+
+          
+          // low reviews
+          senti_html += '<div><h4>Most negative reviews:</h4><ul class="close-words">';
+          t.negReview.forEach(function(entry, i) {
+            word = entry['review'];
+            val = entry['val'];
+            senti_html += '<li>'+(i+1).toString()+'. ' + word + ' (' + val + ')</li>\n'
+          });
+          senti_html += '</ul></div>';
+
+          $('.reviews').html(senti_html);
+
+
 
           }
 
